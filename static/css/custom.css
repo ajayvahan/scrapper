@@ -1,0 +1,22 @@
+
+.blank{
+	margin-top: 15%;
+}
+
+.profile_pic{
+	width: 200px;
+	height: 200px;
+}
+.image_div{
+	margin-top: 100px;
+}
+.image_edit_div{
+	margin-top: 100px;
+}
+.gif{
+	width :20px;
+	height:20px;
+}
+#loading{
+	display:none
+}
