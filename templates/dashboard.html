@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block base %}
+ {% include 'dashboard_navbar.html' %}
+
+<div style="margin-top:10% ; margin-bottom:10%" class="container">
+ 	<div class="row">
+	 	<div class = "col-sm-12 ">
+	 		<h3 class="text-center">What would you like to search?</h3>
+		 	<form action={% url 'dashboard' %} method='get'>
+		 			<div class="form-group col-sm-8 col-sm-offset-2">
+		 					<div class="controls has-feedback">
+		 						{{form.search_item}}
+		 						<span class="glyphicon glyphicon-search form-control-feedback"></span>
+		 					</div>
+							<div class="form-group col-md-12 text-center">
+								<button type="submit" class="btn btn-primary " >Search</button>
+							</div>
+					</div>
+		 	</form>
+		</div>
+		{%if result%}
+		{% for r in result %}
+		<div class='col-md-8 col-md-offset-2'>
+		 	<a href="{{r.landing_url}}">
+		 		<div class="col-md-12">
+		 			<div class="col-md-4">
+						<img src="{{r.image}}"/>
+					</div>
+					<div class="col-md-8">
+						<div class="col-md-12">
+							{{r.name}}
+						</div>
+						<div class="col-md-12">
+							Rs: {{r.price}}
+						</div>
+						<div class="col-md-12">
+							{{r.product_type}}
+						</div>
+					</div>
+		 								
+				</div>
+			</a>
+		</div>
+		{% endfor %}
+	  {% endif %}
+	</div>
+ </div>
+
+</div>
+{% endblock %}
+
+

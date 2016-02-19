@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.home',
-    
+    'apps.usermanager',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -115,6 +115,8 @@ STATICFILES_DIRS = (
 )
 MEDIA_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = '/media/'
+
+LOGIN_URL = '/login/'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block base %}
+ {% include 'dashboard_navbar.html' %}
+
+<div style="margin-top:10% ; margin-bottom:10%" class="container">
+	
+<div class="row">
+	<div class="col-md-4 col-md-offset-4">
+		<h1 class="text-center">Your profile<h1>
+		<h4>First Name : {{user.first_name}}</h4>
+		<h4>Last Name : {{user.last_name}}</h4>
+		<h4>Gender : {{user.userdetail.get_gender_display}}</h4>
+		<h4>Date of birth : {{user.userdetail.date_of_birth}}</h4>
+		<h4>Marital status : {{user.userdetail.get_marital_display}}</h4>
+		<h4>Email : {{user.userdetail.user.email}}</h4>
+		<h4>Phone : {{user.userdetail.phone}}</h4>
+		<h4>Address : {{user.userdetail.address}}</h4>
+		<h4>Street : {{user.userdetail.street}}</h4>
+		<h4>City : {{user.userdetail.city}}</h4>
+		<h4>State : {{user.userdetail.state}}</h4>
+		<h4>Zip code : {{user.userdetail.zip_code}}</h4>
+		<h4>Preffered communication : 
+			{%if user.userdetail.mail %} mail,{% endif%}
+			{% if user.userdetail.message%}message,{% endif %}
+			{%if user.userdetail.phonecall %}phonecall,{% endif %}
+			{% if user.userdetail.other %}others.{% endif %}</h4>
+		<div class="text-center">
+			<a class="btn btn-primary"href="{% url 'edit_profile' %}">Edit</a>
+		</div>
+
+
+		
+	</div>
+</div>
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}
