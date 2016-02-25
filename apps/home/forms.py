@@ -1,10 +1,6 @@
+"""Forms for home app."""
 from django import forms
-
-
-SITE_CHOICES = (
-    ('F', 'flipkart'),
-    ('A', 'amazon')
-)
+from apps import constants as con
 
 
 class ScrapSearchForm(forms.Form):
@@ -12,9 +8,12 @@ class ScrapSearchForm(forms.Form):
 
     search_item = forms.CharField(
         max_length=255, required=True,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'required':True}))
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'required': True})
+    )
     site_choice = forms.ChoiceField(
-        required=False, choices=SITE_CHOICES, widget=forms.RadioSelect(attrs={'required':True}))
+        required=True, choices=con.SITE_CHOICES,
+        widget=forms.RadioSelect(attrs={'required': True}))
 
 
 class DashboardSearchForm(forms.Form):
@@ -22,4 +21,7 @@ class DashboardSearchForm(forms.Form):
 
     search_item = forms.CharField(
         max_length=255, required=True,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'required':True}))
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'required': True}
+        )
+    )

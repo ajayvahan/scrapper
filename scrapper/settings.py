@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from apps import constants as con
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,6 +27,13 @@ SECRET_KEY = '4tuo4s$cj2v&yy_d9ak7mr*)^6gd0oxk*f^42=y@tpp1l7%7%a'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# Sending mail.
+EMAIL_HOST = con.EMAIL_HOST
+EMAIL_HOST_USER = con.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = con.EMAIL_HOST_PASSWORD
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 
 # Application definition
@@ -113,7 +121,7 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(BASE_DIR, "static"),
 )
-MEDIA_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_ROOT = os.path.join(BASE_DIR, "static/")
 MEDIA_URL = '/media/'
 
 LOGIN_URL = '/login/'

@@ -1,107 +1,84 @@
-{% extends "base.html" %}
+{% extends "home_base.html" %}
 {% load staticfiles %}
 
-{% block base %}
-{% include 'navbar.html' %}
+{% block home_base %}
 
-<div class = "container login">
-	<div class="row">
-	<div class = "col-sm-6 col-sm-offset-3 ">
-		<div class="jumbotron">
-		<h3 class="page-header text-center" > Login</h3>
-		{% for message in messages %}
-		    {% if 'error' in message.tags %}
-		        <div class="alert alert-danger">
-		            <a class="close" href="#" data-dismiss="alert">×</a>
-		            <strong>Error!</strong>
-		                {{ message }}
-		        </div>
-		    {% endif %}
-		{% endfor %}
-		<form action="{% url 'login' %}" method="post">{% csrf_token%}
-				{{ form.non_field_errors }}
-
-				<!-- User name field -->
-					<div class="form-group">
-						{{ form.username.label_tag }}
-
-						{% if form.username.errors %}
-						<div class="has-error has-feedback">
-							{{ form.username }}
-							<span class="help-inline text-danger">
-			                    {% for error in  form.username.errors %}{{ error }}{% endfor %}
-			                </span>
-			                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-						</div>
-						{% else %}
-							<div class="controls has-feedback">
-							{{ form.username }}
-			                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
-						</div>
-						{% endif %}
-
-					</div>
-
-				<!-- Password name field -->
-					<div class="form-group">
-						{{ form.password.label_tag }}
-
-						{% if form.password.errors %}
-						<div class="has-error has-feedback">
-							{{ form.password }}
-							<span class="help-inline text-danger">
-			                    {% for error in  form.password.errors %}{{ error }}{% endfor %}
-			                </span>
-			                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-						</div>
-						{% else %}
-							<div class="controls has-feedback">
-							{{ form.password }}
-			                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-						</div>
-						{% endif %}
-
-					</div>
-
-				<!--  <fieldset> -->
-
-			        <!-- {% for field in form %}
-			            {% if field.errors %}
-			                <div class="form-group">
-			                    <label >{{ field.label }}*</label> 
-			                    <div class="has-error has-feedback">{{ field }}
-			                        <span class="help-inline text-danger">
-			                            {% for error in  field.errors %}{{ error }}{% endfor %}
-			                        </span>
-			                        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-			                    </div>
-			                </div>
-			            {% else %}
-			                <div class="form-group">
-			                    <label>{{ field.label }}*</label> 
-			                    <div class="controls has-feedback">{{ field }}
-			                    	{% if field == form.password %}
-			                        	<span class="glyphicon glyphicon-user form-control-feedback"></span>
-			                        {% else %}
-			                        	<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-			                        {% endif %}
-			                        {% if field.help_text %}
-			                            <p class="help-inline"><small>{{ field.help_text }}</small></p>
-			                        {% endif %}
-			                    </div>
-			                </div>
-			            {% endif %}
-			        {% endfor %} -->
-			    <!-- </fieldset> -->
-			    <div class="form-group text-center">
-			        <button type="submit" class="btn btn-primary" >Log in</button>
-			    </div>
-				
-			</form>
-	</div>
-</div>
-</div>
-</div>
-{% include 'footer.html' %}
+	<!-- Login container -->
+	<div class = "container login_container">
+		<!-- Login row -->
+		<div class="row">
+			<div class="col-md-4 col-sm-3 "></div><!-- end empty div -->
+			<!-- Login div -->
+			<div  class = "col-md-4 col-sm-6  login_div">
+					<!-- Login header -->
+					<h3 class="page-header text-center" > Login</h3>
+					{% for message in messages %}
+					    {% if 'error' in message.tags %}
+					    	<!-- For displaying error messages in alert box -->
+					        <div class="alert alert-danger">
+					            <a class="close" href="#" data-dismiss="alert">×</a>
+					            <strong>Error!</strong>
+					                {{ message }}
+					        </div>
+					    {% endif %}
+					{% endfor %}
+					<!-- Login form -->
+					<form action="{% url 'login' %}" method="post">{% csrf_token%}
+						{{ form.non_field_errors }}
+							<!-- User name field -->
+							<div class="form-group">
+								{{ form.username.label_tag }}
+								{% if form.username.errors %}
+								<!-- For displaying errors -->
+								<div class="has-error has-feedback">
+									{{ form.username }}
+									<!-- For displaying error messages inline -->
+									<span class="help-inline text-danger">
+					                    {% for error in  form.username.errors %}{{ error }}{% endfor %}
+							        </span>
+							        <!-- Giving cross glyhicon -->
+							        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+								</div>
+								{% else %}
+								<!-- For displaying input field with glyphicon inside it -->
+								<div class="controls has-feedback">
+									{{ form.username }}
+									<!-- Giving user glyhicon -->
+					        		<span class="glyphicon glyphicon-user form-control-feedback"></span>
+								</div>
+								{% endif %}
+							</div>
+							<!-- Password name field -->
+							<div class="form-group">
+								{{ form.password.label_tag }}
+								{% if form.password.errors %}
+								<!-- For displaying errors -->
+								<div class="has-error has-feedback">
+									{{ form.password }}
+									<!-- For displaying error messages inline -->
+									<span class="help-inline text-danger">
+					                    {% for error in  form.password.errors %}{{ error }}{% endfor %}
+							        </span>
+							        <!-- Giving cross glyhicon -->
+							        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+								</div>
+								{% else %}
+								<!-- For displaying input field with glyphicon inside it -->
+									<div class="controls has-feedback">
+										{{ form.password }}
+									<!-- Giving Lock glyhicon -->
+					        	 	<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+									</div>
+								{% endif %}
+							</div>
+						<!-- Login submit button -->
+					    <div class="form-group text-center">
+					        <button type="submit" class="btn btn-primary" >Log in</button>
+					    </div>						
+					</form><!-- end login form -->
+			</div><!-- end login div -->
+			<div class="col-sm-4 col-sm-3 "></div><!-- end empty div -->
+		</div><!-- login row -->
+	</div><!-- end login container -->
 
 {% endblock %}

@@ -1,10 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'home_base.html' %}
 {% load staticfiles %}
 
-{% block base %}
-
-<!-- Static navbar -->
-    {% include 'navbar.html' %}
+{% block home_base %}
 
 <!-- Carousel
     ================================================== -->
@@ -114,7 +111,7 @@
         </div>
       </div>
 
-      <hr class="featurette-divider">
+      <hr class="featurette-divider">      
 
       <div class="row featurette">
         <div class="col-md-7">
@@ -131,6 +128,5 @@
       <!-- /END THE FEATURETTES -->
     </div><!-- /.container -->
 
-    {% include 'footer.html' %}
 
     {% endblock %}

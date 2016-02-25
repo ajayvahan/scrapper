@@ -1,0 +1,187 @@
+/* HTML AND BODY CUSTOMIZATION
+-------------------------------------------------- */
+
+body {
+  color: #5a5a5a;
+  font-family: Montserrat,sans-serif;
+}
+
+/* CUSTOMIZE THE NAVBAR
+-------------------------------------------------- */
+
+/* Special class on .container surrounding .navbar, used for positioning it into place. */
+.navbar-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 20;
+}
+
+/* Flip around the padding for proper display in narrow viewports */
+.navbar-wrapper > .container {
+  padding-right: 0;
+  padding-left: 0;
+}
+.navbar-wrapper .navbar {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.navbar-wrapper .navbar .container {
+  width: auto;
+}
+
+
+
+/* CUSTOMIZE PROFILE PAGE.
+-------------------------------------------------- */
+
+/* Profile container */
+.profile {
+  padding-top: 50px;
+  margin: 20px 0;
+}
+
+/* Profile sidebar */
+.profile-sidebar {
+  padding: 20px 0 10px 0;
+  background: #fff;
+}
+
+.profile-userpic img {
+  float: none;
+  margin: 0 auto;
+  width: 50%;
+  height: 50%;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+}
+
+.profile-usertitle {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.profile-usertitle-name {
+  color: #5a7391;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.profile-usertitle-job {
+  /*text-transform: uppercase;*/
+  color: #5b9bd1;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.profile-userbuttons {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.profile-userbuttons .btn {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 15px;
+  margin-right: 5px;
+}
+
+.profile-userbuttons .btn:last-child {
+  margin-right: 0px;
+}
+    
+.profile-usermenu {
+  margin-top: 30px;
+}
+
+.profile-usermenu ul li {
+  border-bottom: 1px solid #f0f4f7;
+}
+
+.profile-usermenu ul li:last-child {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li a {
+  color: #93a3b5;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.profile-usermenu ul li a i {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.profile-usermenu ul li a:hover {
+  background-color: #fafcfd;
+  color: #5b9bd1;
+}
+
+.profile-usermenu ul li.active {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li.active a {
+  color: #5b9bd1;
+  background-color: #f6f9fb;
+  border-left: 2px solid #5b9bd1;
+  margin-left: -2px;
+}
+
+/* Profile Content */
+.profile-content {
+  padding: 20px;
+  background: #fff;
+  min-height: 460px;
+}
+
+
+
+
+
+/* CUSTOMIZE DASHBOARD PAGE
+-------------------------------------------------- */ 
+.dashboard_container{
+  margin-top:100px;
+  min-height: 500px !important;
+}
+
+/* CUSTOMIZE SCRAP PAGE
+-------------------------------------------------- */ 
+.scrap_container{
+  margin-top:100px;
+  min-height: 500px !important;
+}
+
+/* CUSTOMIZE PROFILE PAGE
+-------------------------------------------------- */ 
+.profile_container{
+  background: #F1F3FA;
+  min-height: 500px;
+}
+
+/* CUSTOMIZE EDIT PROFILE PAGE
+-------------------------------------------------- */ 
+.editprofile_container{
+  margin-top:5%;
+  margin-bottom:5%
+}
+
+/* CUSTOMIZE THE FOOTER
+-------------------------------------------------- */
+footer{
+      background:#333;
+      color:#A1A5A7;
+      font-size: 12px;
+      padding: 20px; 
+    }
+/*ul.unstyled{
+      list-style: none;
+      padding: 0;
+}*/

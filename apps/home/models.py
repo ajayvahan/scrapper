@@ -1,7 +1,11 @@
+"""Models for home app."""
 from django.db import models
 
 # Create your models here.
+
+
 class Product(models.Model):
+    """Model for Product."""
 
     name = models.CharField(max_length=255, null=True, blank=True)
     product_type = models.CharField(max_length=30, null=True, blank=True)
@@ -13,4 +17,5 @@ class Product(models.Model):
     site_reference = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
+        """Value to return if object is called."""
         return self.name
