@@ -51,6 +51,7 @@ Installation:
 Before you start scraping, you will have to set up a new Scrapper project.
 
 Step 1: Create a separate virtual environment with python 3.4 for our project.
+		
 		$ pip install virtualenv
 		$ virtualenv -p /usr/bin/python3 env/py34
 		$ source env/py34/bin/activate
