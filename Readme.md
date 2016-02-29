@@ -36,10 +36,12 @@ Technologies Used:
 ---------------------------------------------------------------------
 
 Backend:
+
 	Django 1.8
 	MySQL 1.3.7
 
 Front end:
+	
 	HTML5
 	CSS3
 	Bootstrap 3
@@ -94,4 +96,6 @@ Step 7: Run server
 		
 		$ python manage.py runserver
 
-Step 8: In browser url run  http://localhost:8000
+Step 8: In browser url run 
+		
+		http://localhost:8000
