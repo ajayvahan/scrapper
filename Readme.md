@@ -86,10 +86,12 @@ Step 5: Confuger your database and email in settinds.py
 
 
 Step 6: Enter the scrapper directory and run the following command to create tables for the project.
+		
 		$ python manage.py makemigrations
 		$ python manage.py migrate
 
 Step 7: Run server
+		
 		$ python manage.py runserver
 
 Step 8: In browser url run  http://localhost:8000
