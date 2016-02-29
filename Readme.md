@@ -59,6 +59,7 @@ Step 1: Create a separate virtual environment with python 3.4 for our project.
 Step 2: In the environment install django and all other required pakages mentioned above.
 
 Step 3: Clone the project to your folder. Enter a directory where you’d like to store the project and run:
+		
 		$ git clone https://github.com/ajayvahan/scrapper.git
 
 
@@ -67,14 +68,14 @@ Step 4: Create a empty database named "scrapper".
 Step 5: Confuger your database and email in settinds.py
 
 		DATABASES = {
-	    'default': {
-	        'ENGINE': 'django.db.backends.mysql',
-	        'NAME': 'scrapper',
-	        'USER': 'mysql client username',
-	        'PASSWORD': 'mysql client password',
-	        'HOST': '',
-	        'PORT': '',
-	    	}
+	    		'default': {
+	        	'ENGINE': 'django.db.backends.mysql',
+	        	'NAME': 'scrapper',
+	        	'USER': 'mysql client username',
+	        	'PASSWORD': 'mysql client password',
+			'HOST': '',
+	        	'PORT': '',
+	    		}
 		}
 
 		EMAIL_HOST = 'your email host'
