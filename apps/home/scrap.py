@@ -4,12 +4,17 @@
 import mechanicalsoup
 from apps import constants as con
 from apps.home.models import Product
+from django.conf import settings
+import logging
+
+# Get an instance of a logger
+logger = logging.getLogger(settings.LOGGER)
 
 
 class Scrap(object):
     """Scrap the web site.
 
-    Scrapping flipkart and amazon based on the search argument
+    Scrapping flipkart and amazon based on the search argument.
     """
 
     def __init__(self, *args, **kwargs):
@@ -18,202 +23,211 @@ class Scrap(object):
         self.amazon_URL = con.AMAZON_URL
 
     def flipkart(self, search=None):
-        """Scraping flipkart."""
-        # Creating brower object.
-        browser = mechanicalsoup.Browser()
+        """Scraping flipkart.
 
-        # Select the form
-        home = browser.get(self.flipkart_URL)
-        form = home.soup.find("form", {"id": "fk-header-search-form"})
+        Parse html document using mechanicalsoup, find searchform input tag
+        and pass search argument in it and submit.Get response and search for
+        specific tags in it to find name, price, href, img src, description
+        and store it in a dictionary. Iterate through all the tags and store
+        all dictionaries in a list and return it.
+        """
+        try:
+            # Creating brower object.
+            browser = mechanicalsoup.Browser()
 
-        # Pass search argument in form input.
-        form.find("input", {"id": "fk-top-search-box"})["value"] = search
+            # Select the form
+            home = browser.get(self.flipkart_URL)
+            form = home.soup.find("form", {"id": "fk-header-search-form"})
 
-        # Get response.
-        response = browser.submit(form, home.url)
+            # Pass search argument in form input.
+            form.find("input", {"id": "fk-top-search-box"})["value"] = search
 
-        # Finding first div element with specific class in page.
-        div_tag = response.soup.find('div', {'class': 'product-unit'})
+            # Get response.
+            response = browser.submit(form, home.url)
 
-        # Finding all div elements with specific class in page.
-        div_tags = response.soup.find_all('div', {'class': 'product-unit'})
+            # Finding first div element with specific class in page.
+            div_tag = response.soup.find('div', {'class': 'product-unit'})
 
-        # Defining empty list.
-        product_list = []
+            # Finding all div elements with specific class in page.
+            div_tags = response.soup.find_all('div', {'class': 'product-unit'})
 
-        for div_tag in div_tags:
-            # Finding price in div.
-            price = div_tag.find('div', {'class': 'pu-final'}).span.get_text()
+            # Defining empty list.
+            product_list = []
 
-            # Extracting only numbers from price.
-            price = price.replace('Rs.', '').strip(' ').replace(',', '')
+            for div_tag in div_tags:
+                # Finding price in div.
+                price = div_tag.find('div', {'class': 'pu-final'}).span.get_text()
 
-            # Finding product name in div
-            name = div_tag.find(
-                'div', {'class': 'pu-details lastUnit'}).a.get_text().strip()
+                # Extracting only numbers from price.
+                price = price.replace('Rs.', '').strip(' ').replace(',', '')
 
-            # Finding landing href of the product.
-            href = self.flipkart_URL + div_tag.a.attrs['href']
+                # Finding product name in div
+                name = div_tag.find(
+                    'div', {'class': 'pu-details lastUnit'}).a.get_text().strip()
 
-            # Finding image src from img tag in div.
-            img_src = div_tag.img.attrs['data-src']
+                # Finding landing href of the product.
+                href = self.flipkart_URL + div_tag.a.attrs['href']
 
-            # Finding description of product in div.
-            description = div_tag.find('ul', {'class': 'pu-usp'})
+                # Finding image src from img tag in div.
+                img_src = div_tag.img.attrs['data-src']
 
-            # Handling if product_type doesnt exist.
-            try:
-                # if present assign to product_type.
-                product_type = div_tag.find(
-                    'div', {'class': 'pu-category'}).span.get_text()
-            except:
-                # if not present then product_type is search argument.
-                product_type = search
+                # Finding description of product in div.
+                description = div_tag.find('ul', {'class': 'pu-usp'})
 
-            # Storing all values in data dict.
-            data = {
-                'name': name, 'product_type': product_type, 'price': price,
-                'description': str(description), 'landing_url': href,
-                'image': img_src, 'site_reference': 'flipkart'
-            }
+                # Handling if product_type doesnt exist.
+                try:
+                    # if present assign to product_type.
+                    product_type = div_tag.find(
+                        'div', {'class': 'pu-category'}).span.get_text()
 
-            # To print the data in terminal.
-            print(data)
+                except:
+                    # if not present then product_type is search argument.
+                    product_type = search
 
-            try:
-                # Filtering product table with specific parameters
-                # If exist store in product variable.
-                product = Product.objects.filter(
-                    site_reference='flipkart', name=name,
-                    product_type=product_type
-                )
+                # Storing all values in data dict.
+                data = {
+                    'name': name, 'product_type': product_type, 'price': price,
+                    'description': str(description), 'landing_url': href,
+                    'image': img_src, 'site_reference': 'flipkart'
+                }
 
-                # To print the product in terminal.
-                print(product)
+                try:
+                    # Filtering product table with specific parameters
+                    # If exist store in product variable.
+                    product = Product.objects.filter(
+                        site_reference='flipkart', name=name,
+                        product_type=product_type
+                    )
 
-                # If product exist.
-                if product:
-                    # Update product table with data.
-                    Product.objects.filter(pk=product[0].pk).update(**data)
+                    # If product exist.
+                    if product:
+                        # Update product table with data.
+                        Product.objects.filter(pk=product[0].pk).update(**data)
 
-                    # Save the changes
-                    product[0].save()
+                        # Save the changes
+                        product[0].save()
 
-                    # Assigning product[0] to variable p.
-                    p = product[0]
+                        # Assigning product[0] to variable product_obj.
+                        product_obj = product[0]
 
-                # If product does not exist.
-                else:
-                    # Create new product row.
-                    p = Product.objects.create(**data)
-            except Exception as e:
-                print(e)
-                p = None
+                    # If product does not exist.
+                    else:
+                        # Create new product row.
+                        product_obj = Product.objects.create(**data)
+                except Exception as e:
+                    logger.exception("EXCEPTION :" + str(e))
+                    product_obj = None
 
-            # To print p in the terminal.
-            print(p)
+                if product_obj:
+                    # Appending p to product_list
+                    product_list.append(product_obj)
 
-            if p:
-                # Appending p to product_list
-                product_list.append(p)
-        # product_list is return to the view to display it in front end
-        return product_list
+            # product_list is return to the view to display it in front end
+            return product_list
+
+        except Exception as e:
+            logger.exception("EXCEPTION :" + str(e))
+            feedback = None
+            return feedback
 
     def amazon(self, search=None):
-        """Scrapping amazon."""
-        # Creating brower object.
-        browser = mechanicalsoup.Browser()
+        """Scrapping amazon.
 
-        # Select the form
-        home = browser.get(self.amazon_URL)
-        form = home.soup.find("form", {"name": "site-search"})
+        Parse html document using mechanicalsoup, find searchform input tag
+        and pass search argument in it and submit.Get response and search for
+        specific tags in it to find name, price, href, img src, description
+        and store it in a dictionary. Iterate through all the tags and store
+        all dictionaries in a list and return it.
+        """
+        try:
+            # Creating brower object.
+            browser = mechanicalsoup.Browser()
 
-        # Pass search argument in form input.
-        form.find("input", {"id": "twotabsearchtextbox"})["value"] = search
-        response = browser.submit(form, home.url)
+            # Select the form
+            home = browser.get(self.amazon_URL)
+            form = home.soup.find("form", {"name": "site-search"})
 
-        # Finding first div element with specific class in page.
-        div_tag = response.soup.find(
-            'div', {'class': 'a-fixed-left-grid-inner'}
-        )
+            # Pass search argument in form input.
+            form.find("input", {"id": "twotabsearchtextbox"})["value"] = search
+            response = browser.submit(form, home.url)
 
-        # Finding all div elements with specific class in page.
-        div_tags = response.soup.find_all(
-            'div', {'class': 'a-fixed-left-grid-inner'}
-        )
+            # Finding first div element with specific class in page.
+            div_tag = response.soup.find(
+                'div', {'class': 'a-fixed-left-grid-inner'}
+            )
 
-        # Defining empty list.
-        product_list = []
+            # Finding all div elements with specific class in page.
+            div_tags = response.soup.find_all(
+                'div', {'class': 'a-fixed-left-grid-inner'}
+            )
 
-        for div_tag in div_tags:
-            # Finding product name in div
-            name = div_tag.find(
-                'div', {'class': 'a-row a-spacing-small'}).h2.get_text()
+            # Defining empty list.
+            product_list = []
 
-            # Finding price in div.
-            price = div_tag.find('span', {'class': 'currencyINR'}).next_sibling
+            for div_tag in div_tags:
+                # Finding product name in div
+                name = div_tag.find(
+                    'div', {'class': 'a-row a-spacing-small'}).h2.get_text()
 
-            # Extracting only numbers from price and typecast to float
-            price = float(
-                price.strip(' ').replace(',', '').replace('-', '').replace('/', ''))
+                # Finding price in div.
+                price = div_tag.find('span', {'class': 'currencyINR'}).next_sibling
 
-            # Finding landing href of the product.
-            href = div_tag.find(
-                'div', {'class': 'a-row a-spacing-small'}).a.attrs['href']
+                # Extracting only numbers from price and typecast to float
+                price = float(
+                    price.strip(' ').replace(',', '').replace('-', '').replace('/', ''))
 
-            # Finding image src from img tag in div.
-            img_src = div_tag.img.attrs['src']
+                # Finding landing href of the product.
+                href = div_tag.find(
+                    'div', {'class': 'a-row a-spacing-small'}).a.attrs['href']
 
-            # Finding product_type of product in div.
-            product_type = div_tag.find(
-                'div', {'class': 'a-column a-span5 a-span-last'}).find(
-                'span', {'class': 'a-text-bold'}).get_text().strip(':')
+                # Finding image src from img tag in div.
+                img_src = div_tag.img.attrs['src']
 
-            # Storing all values in data dict.
-            data = {
-                'name': name, 'product_type': product_type, 'price': price,
-                'landing_url': href, 'image': img_src,
-                'site_reference': 'amazon'
-            }
+                # Finding product_type of product in div.
+                product_type = div_tag.find(
+                    'div', {'class': 'a-column a-span5 a-span-last'}).find(
+                    'span', {'class': 'a-text-bold'}).get_text().strip(':')
 
-            # To print the data in terminal.
-            print(data)
+                # Storing all values in data dict.
+                data = {
+                    'name': name, 'product_type': product_type, 'price': price,
+                    'landing_url': href, 'image': img_src,
+                    'site_reference': 'amazon'
+                }
 
-            try:
-                # Filtering product table with specific parameters
-                # If exist store in product variable.
-                product = Product.objects.filter(
-                    site_reference='flipkart', name=name,
-                    product_type=product_type)
+                try:
+                    # Filtering product table with specific parameters
+                    # If exist store in product variable.
+                    product = Product.objects.filter(
+                        site_reference='flipkart', name=name,
+                        product_type=product_type)
 
-                # To print the product in terminal.
-                print(product)
+                    # If product exist.
+                    if product:
+                        # Update product table with data.
+                        Product.objects.filter(pk=product[0].pk).update(**data)
 
-                # If product exist.
-                if product:
-                    # Update product table with data.
-                    Product.objects.filter(pk=product[0].pk).update(**data)
+                        # Save the changes
+                        product[0].save()
 
-                    # Save the changes
-                    product[0].save()
+                        # Assigning product[0] to variable product_obj.
+                        product_obj = product[0]
 
-                    # Assigning product[0] to variable p.
-                    p = product[0]
+                    # If product does not exist.
+                    else:
+                        # Create new product row.
+                        product_obj = Product.objects.create(**data)
+                except Exception as e:
+                    logger.exception("EXCEPTION :" + str(e))
+                    product_obj = None
 
-                # If product does not exist.
-                else:
-                    # Create new product row.
-                    p = Product.objects.create(**data)
-            except Exception as e:
-                print(e)
-                p = None
+                if product_obj:
+                    # Appending p to product_list
+                    product_list.append(product_obj)
 
-            # To print p in the terminal.
-            print(p)
+            # product_list is return to the view to display it in front end
+            return product_list
 
-            if p:
-                # Appending p to product_list
-                product_list.append(p)
-
-        # product_list is return to the view to display it in front end
-        return product_list
+        except Exception as e:
+            logger.exception("EXCEPTION :" + str(e))
+            return None

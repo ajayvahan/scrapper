@@ -1,10 +1,5 @@
 """Constants for home and usermanager apps."""
 
-# Constants for setting
-EMAIL_HOST = 'email.mindfiresolutions.com'
-EMAIL_HOST_USER = 'ajay.vahan@mindfiresolutions.com'
-EMAIL_HOST_PASSWORD = '1mfmail2016#'
-
 # constants for usermanager app views
 ACTIVATION_URL = "http://localhost:8000/activate/"
 

@@ -3,63 +3,59 @@
 
 {% block dashboard_base %}
 
+<!-- Edit profile container -->
 <div class="container-fluid profile_container">
+	<!-- pdit Profile row -->
     <div class="row profile">
+    	<!-- Edit profile side bar -->
 		<div class="col-md-3">
+			<!-- Edit profile sidebar div  -->
 			<div class="profile-sidebar">
-				<!-- SIDEBAR USERPIC -->
+				<!-- Sidebar userpic -->
 				<div class="profile-userpic">
 					{% if user.userdetail.image %}
 					<img src="{% get_static_prefix %}{{user.userdetail.image}}" class="img-responsive" alt="Image not found ">
 					{% else %}
 					<img src="{% get_static_prefix %}images/blank-profile.jpg" class="img-responsive" alt="Image not found">
 					{% endif %}
-
-				</div>
-				<!-- END SIDEBAR USERPIC -->
-				<!-- SIDEBAR USER TITLE -->
+				</div><!-- end sidebar userpic-->
+				<!-- Sidebar username -->
 				<div class="profile-usertitle">
 					<div class="profile-usertitle-name">
-						{{user.first_name}}
+						{{form.first_name.value}} {{form.last_name.value}}
 					</div>
 					<div class="profile-usertitle-job">
 						{{user.userdetail.user.email}}
 					</div>
-				</div>
-				<!-- END SIDEBAR USER TITLE -->
-				<!-- SIDEBAR BUTTONS -->
-				<!-- <div class="profile-userbuttons">
-					<button type="button" class="btn btn-success btn-sm">Follow</button>
-					<button type="button" class="btn btn-danger btn-sm">Message</button>
-				</div -->
-				<!-- SIDEBAR MENU -->
+				</div><!-- end sidebar username -->
+				<!-- Sidebar menu -->
 				<div class="profile-usermenu">
 					<ul class="nav">
 						<li class="{{profile}}">
 							<a href="{% url 'profile' %}">
-							<i class="glyphicon glyphicon-home"></i>
-							Overview </a>
-						</li>
-						<li>
-							<a href="{% url 'edit_profile' %}">
 							<i class="glyphicon glyphicon-user"></i>
-							Account Settings </a>
+							Profile </a>
+						</li>
+						<li class="{{edit_profile}}">
+							<a href="{% url 'edit_profile' %}">
+							<i class="glyphicon glyphicon-pencil"></i>
+							Edit profile </a>
 						</li>
 						<li>
 							<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-ok"></i>
-							Tasks </a>
-						</li>
-						<li>
-							<a href="#">
 							<i class="glyphicon glyphicon-flag"></i>
 							Help </a>
 						</li>
+						<li>
+							<a href="{% url 'logout' %}">
+							<i class="glyphicon glyphicon-log-out"></i>
+							Logout </a>
+						</li>
 					</ul>
-				</div>
-				<!-- END MENU -->
-			</div>
-		</div>
+				</div><!-- end sidebar menu-->
+			</div><!-- end edit profile sidebar div  -->
+		</div><!-- end edit profile sidebar  -->
+		<!-- Edit rofile content -->
 		<div class="col-md-9">
             <div class="profile-content">
             	<div class="row">
@@ -67,7 +63,8 @@
             		<div class="col-sm-8 col-sm-offset-2">
             			<!-- Feedback message -->
             			{% if feedback %}
-            			<div class="alert alert-success">
+						<!-- For displaying feedback messages in alert box -->
+            			<div class="alert alert-success text-center">
 			            	<a class="close" href="#" data-dismiss="alert">×</a>
 			            	<strong>{{ feedback }}</strong>
 			                	
@@ -116,7 +113,7 @@
 							<div class="form-group col-sm-6">
 								{{ form.marital.label_tag }}
 								<div>{{ form.marital }}</div>
-								<div class="help-inline text-danger">{{ form.phone.errors }}</div>
+								<div class="help-inline text-danger">{{ form.marital.errors }}</div>
 							</div>
 
 							<!-- Gender field -->
@@ -320,13 +317,6 @@
 								<div class="form-group col-sm-12 text-center">
 									<button type="submit" class="btn btn-success " >Save</button>
 								</div>
-
-
-
-
-
-
-
             			</form><!-- end form -->
             		</div><!-- end col-sm-8 -->
             	</div><!-- end row -->

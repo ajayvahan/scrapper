@@ -124,9 +124,10 @@ ul.unstyled{
   background-color: #BAE0DD;
 }
 
-/* CUSTOMIZE THE LOGIN PAGE
+/* CUSTOMIZE THE SIGNUP PAGE
 -------------------------------------------------- */
 .signup_container{
+  min-height: 400px;
   margin-top:70px;
   margin-bottom: 20px;
 }
@@ -135,4 +136,12 @@ ul.unstyled{
   border: 1px solid #D8DCDE;
   border-radius: 10px;
   background-color: #BAE0DD;
+}
+
+/* CUSTOMIZE THE ACTIVATE PAGE
+-------------------------------------------------- */
+
+.activate_container{
+  margin-top: 250px;
+  min-height: 250px;
 }

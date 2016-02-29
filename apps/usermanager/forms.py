@@ -1,4 +1,8 @@
-"""Forms for usermanager."""
+"""Forms for usermanager.
+
+It contains registeration form for signup page, login form
+for login page and edit form for edit profile page.
+"""
 
 from django import forms
 from .models import UserDetail
@@ -6,53 +10,68 @@ from apps import constants as con
 
 
 class SignUpForm(forms.Form):
-    """Registeration form."""
+    """Registeration form for signup page.
 
-    # textboxes
+    It provide all the fields needed for registeration form.
+    """
+
+    # Textbox fields.
     first_name = forms.CharField(
-        max_length=30,
-        required=True,
-        widget=forms.TextInput(attrs={'class': 'form-control'}))
+        max_length=30, required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'required': True}))
     last_name = forms.CharField(
-        max_length=30,
-        required=True,
-        widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.EmailField(
-        max_length=254,
-        required=True,
-        widget=forms.TextInput(attrs={'class': 'form-control'}))
+        max_length=30, required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'required': True}))
     username = forms.CharField(
-        max_length=30,
-        required=True,
-        widget=forms.TextInput(attrs={'class': 'form-control'}))
+        max_length=30, required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'required': True}))
+
+    # Email field.
+    email = forms.EmailField(
+        max_length=254, required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'required': True}))
+
+    # Password fields.
     password = forms.CharField(
-        max_length=128,
-        required=True,
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+        max_length=128, required=True,
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control', 'required': True}))
     confirm_password = forms.CharField(
-        max_length=128,
-        required=True,
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+        max_length=128, required=True,
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control', 'required': True}))
 
 
 class LoginForm(forms.Form):
-    """Login form."""
+    """Login form for login page.
 
-    # textboxes
+    It provide all the fields needed for login form.
+    """
+
+    # Textbox fields.
     username = forms.CharField(
-        max_length=30,
-        required=True,
-        widget=forms.TextInput(attrs={'class': 'form-control'}))
+        max_length=30, required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'required': True}))
+
+    # Password field.
     password = forms.CharField(
-        max_length=128,
-        required=True,
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+        max_length=128, required=True,
+        widget=forms.PasswordInput(
+            attrs={'class': 'form-control', 'required': True}))
 
 
 class EditProfileForm(forms.ModelForm):
-    """Edit profile form."""
+    """Edit profile form.
 
-    # textboxes
+    It provide all the fields needed for edit profile form.
+    """
+
+    # Textbox fields.
     first_name = forms.CharField(
         max_length=30, required=True,
         widget=forms.TextInput(attrs={
@@ -63,52 +82,52 @@ class EditProfileForm(forms.ModelForm):
             'class': 'form-control', 'required': False})
     )
 
-    # radio button
+    # Radio field.
     gender = forms.ChoiceField(
         choices=con.GENDER_CHOICES, required=False,
         widget=forms.RadioSelect(attrs={'required': False}))
 
-    # textboxes
+    # Date field.
     date_of_birth = forms.DateField(
         required=False,
         widget=forms.TextInput(attrs={
             'type': 'date', 'class': 'form-control'}))
 
-    # dropdown box
+    # Dropdown field.
     marital = forms.ChoiceField(
         choices=con.MARITAL_CHOICES, required=False)
 
-    # textboxes
-    phone = forms.IntegerField(
-        required=False,
+    # Number field.
+    phone = forms.CharField(
+        max_length=12, min_length=10, required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control', 'required': False}))
 
-    # textarea
+    # Textarea field.
     address = forms.CharField(
-        required=False,
+        max_length=150, required=False,
         widget=forms.Textarea(attrs={
             'class': 'form-control', 'rows': 3}))
 
-    # textboxes
+    # Textbox fields.
     street = forms.CharField(
-        required=False,
+        max_length=30, required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control', 'required': False}))
     city = forms.CharField(
-        required=False,
+        max_length=30, required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control', 'required': False}))
     state = forms.CharField(
-        required=False,
+        max_length=30, required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control', 'required': False}))
     zip_code = forms.CharField(
-        required=False,
+        max_length=6, required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control', 'required': False}))
 
-    # checkboxes
+    # Checkbox fields.
     mail = forms.BooleanField(required=False)
     message = forms.BooleanField(required=False)
     phonecall = forms.BooleanField(required=False)
@@ -117,7 +136,7 @@ class EditProfileForm(forms.ModelForm):
         required=False, widget=forms.Textarea(attrs={
             'class': 'form-control', 'rows': 3}))
 
-    # image field
+    # Image field.
     image = forms.ImageField(required=False)
 
     class Meta:
@@ -126,27 +145,36 @@ class EditProfileForm(forms.ModelForm):
         # UserDetail model
         model = UserDetail
 
-        # fields to include
+        # Fields to include.
         fields = ['first_name', 'last_name', 'gender', 'date_of_birth',
                   'marital', 'phone', 'address', 'street', 'city',
                   'state', 'zip_code', 'mail', 'message', 'phonecall',
                   'other', 'extra_note', 'image']
 
-        # fields to exclude.
+        # Fields to exclude.
         exclude = ["user"]
+
+    def clean_phone(self):
+        """Custom validation of phone number field."""
+        phone = self.cleaned_data.get('phone')
+        try:
+            int(phone)
+        except (ValueError, TypeError):
+            raise forms.ValidationError('Please enter a valid phone number')
+        return phone
 
     def __init__(self, request, *args, **kwargs):
         """Setting initial value for fields."""
         super(EditProfileForm, self).__init__(*args, **kwargs)
 
-        # feilds from auth_user table.
+        # Feilds from auth_user table.
         self.fields['first_name'].initial = request.user.first_name
         self.fields['last_name'].initial = request.user.last_name
 
-        # creating UserDetail reference where user_id
+        # Creating UserDetail reference where user_id
         ud = UserDetail.objects.get(user=request.user)
 
-        # feilds from UserDetail.
+        # Feilds from UserDetail.
         self.fields['city'].initial = ud.city
         self.fields['gender'].initial = ud.gender
         self.fields['date_of_birth'].initial = ud.date_of_birth

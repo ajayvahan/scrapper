@@ -141,6 +141,9 @@ body {
   min-height: 460px;
 }
 
+.borderless td, .borderless th {
+    border: none !important;
+}
 
 
 
@@ -181,7 +184,3 @@ footer{
       font-size: 12px;
       padding: 20px; 
     }
-/*ul.unstyled{
-      list-style: none;
-      padding: 0;
-}*/

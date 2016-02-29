@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from apps import constants as con
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4tuo4s$cj2v&yy_d9ak7mr*)^6gd0oxk*f^42=y@tpp1l7%7%a'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,11 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Sending mail.
-EMAIL_HOST = con.EMAIL_HOST
-EMAIL_HOST_USER = con.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = con.EMAIL_HOST_PASSWORD
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = ''
+EMAIL_USE_TLS = ''
 
 
 # Application definition
@@ -87,9 +86,9 @@ WSGI_APPLICATION = 'scrapper.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'scrapper',
-        'USER': 'root',
-        'PASSWORD': 'mindfire',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': '',
         'PORT': '',
     }
@@ -134,7 +133,28 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, "templates"),
 )
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'log/', 'scrapper.log'),
+        },
+    },
+    'loggers': {
+        'scrapper': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+LOGGER = 'scrapper'
+
 try:
-    from local_settings import *
+    from scrapper.local_settings import *
 except ImportError:
     pass

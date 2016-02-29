@@ -2,79 +2,98 @@
 {% load staticfiles %}
 
 {% block dashboard_base %}
-
+<!-- Dashboard container -->
 <div class="container dashboard_container">
+	<!-- Dashboard row-1 -->
  	<div class="row">
+ 		<!-- Search div -->
 	 	<div class = "col-sm-12 ">
+	 		<!-- Dashboard header -->
 			<h3 class="text-center">What would you like to search?</h3>
+			<!-- Dashboard form -->
 			<form action={% url 'dashboard_search' %} method='get'>
+				<!-- Search box field -->
 				<div class="form-group col-sm-8 col-sm-offset-2">
 					{{ form.non_field_errors }}
 					{% if form.search_item.errors %}
+						<!-- For displaying errors -->
 						<div class="has-error has-feedback">
 							{{ form.search_item }}
+							<!-- For displaying error messages inline -->
 							<span class="help-inline text-danger">
 			                    {% for error in  form.search_item.errors %}{{ error }}{% endfor %}
 			                </span>
+			                <!-- Giving cross glyhicon -->
 			                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
 						</div>
 					{% else %}
+						<!-- For displaying input field with glyphicon inside it -->
 						<div class="controls has-feedback">
 	 						{{form.search_item}}
+	 						<!-- Giving search glyphicon -->
 	 						<span class="glyphicon glyphicon-search form-control-feedback"></span>
-							</div>
-					{% endif %}
-						
-				</div>
-
+						</div>
+					{% endif %}		
+				</div><!-- end search box fields -->
+				<!--  Dashboard submit button -->
  				<div class="form-group col-sm-12 text-center">
 					<button type="submit" class="btn btn-primary " >Search</button>
 				</div>
-
-			</form>
+			</form><!-- end dashboard form -->
 			{% if feedback %}
+			<!-- For displaying feedback message -->
 			<div class="col-sm-12 text-center  ">
-				<h3>Sorry, Search item is not present in database.<a href="{% url 'scrap' %}">Lets scrap it</a></h3>
+				<h3 class="text-warning">Sorry! Search item is not present in database.<a href="{% url 'scrap' %}">Lets scrap it.</a></h3>
 			</div>
 			{% endif %}
-		</div>
-	</div>
+		</div><!-- end search div -->
+	</div><!-- end dashboard row-1 -->
 	{%if result%}
+	<!-- Dashboard row-2 -->
 	<div class="row">
 		{% for r in result %}
+		<!-- Results div -->
 		<div class='col-sm-12 col-sm-offset-'>
+			<!-- Pageheader for divide line -->
 			<div class="page-header col-sm-12"></div>
-
+			<!--  Product div -->
 			<div class="col-sm-12">
+				<!-- Product image div -->
 				<div class="col-md-3 text-center">
 					<a href="{{r.landing_url}}">
 						<img class="text-center" src="{{r.image}}"/>
 					</a>
-				</div>
+				</div><!-- end product image div -->
+				<!-- Product details div -->
 				<div class="col-sm-7">
+					<!-- Product name field -->
 					<div class="col-sm-12">
 						<a href="{{r.landing_url}}"><h4>{{r.name}}</h4></a>
 					</div>
+					<!-- Product price field -->
 					<div class="col-sm-12">
 						<h4>Rs: <a href="{{r.landing_url}}"><span class="text-danger">{{r.price}}</span></h4></a>
 					</div>
+					<!-- Product category -->
 					<div class="col-sm-12">
 						<h5>Category: {{r.product_type}}</h5>
 					</div>
+					<!-- Product site referencd -->
 					<div class="col-sm-12">
 						<h5>in <a href="{{r.landing_url}}"><span class="text-success">{{r.site_reference}}</span></h5></a>
 					</div>
-				</div>
+				</div><!-- end product details div -->
+				<!-- Product buy div -->
 				<div class="col-sm-2 ">
 					<div class="text-center"><a href="{{r.landing_url}}" class="btn btn-lg btn-warning">Buy</a></div>
-				</div>
-			</div>
+				</div><!-- end product but div -->
+			</div><!-- end Product div -->
 
-		</div>
+		</div><!-- end results div -->
 		{% endfor %}
-	</div>
+	</div><!-- end dashboard row-2 -->
 	{% endif %}
- </div>
+ </div><!-- end dashboard container -->
 
 {% endblock %}
 

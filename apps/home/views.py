@@ -1,4 +1,11 @@
-"""home app views."""
+"""home app views.
+
+It contains home view method for home page, dashboard view method
+for dashboard page, dashboard_search view method for dashboard search
+page, scrap view method for scrap page, profile view method for profile
+page, edit_profile view method for edit_profile page and save function
+for saving image.
+"""
 
 
 import os
@@ -12,9 +19,11 @@ from apps.home.scrap import Scrap
 from apps.home.forms import ScrapSearchForm, DashboardSearchForm
 from apps.home.models import Product
 from django.db.models import Q
+import logging
 
+# Get an instance of a logger
+logger = logging.getLogger(settings.LOGGER)
 
-# Create your views here.
 
 def home(request):
     """View for Home page."""
@@ -36,7 +45,11 @@ def dashboard(request):
 
 @login_required
 def dashboard_search(request):
-    """View for Dashboard search page."""
+    """View for Dashboard search page.
+
+    It validates form and filter the product table based on search item
+    and store the list in the result and send it in the html context.
+    """
     # Initial  context values.
     result = None
     feedback = None
@@ -62,7 +75,6 @@ def dashboard_search(request):
                 Q(description__icontains=search_item))
 
             if product:
-                print(product)
 
                 # Storing the product list in result.
                 result = product
@@ -75,7 +87,6 @@ def dashboard_search(request):
 
                 # Send feedback.
                 feedback = "Search in Scrap page "
-                print('search in SCRAp')
 
     # If method POST.
     if request.method == 'POST':
@@ -99,70 +110,19 @@ def profile(request):
 
 @login_required
 def edit_profile(request):
-    """View for Edit profile page."""
+    """View for Edit profile page.
+
+    It validates the form and update auth_user and user_detail tables.
+    """
     # If method POST.
     if request.method == 'POST':
-
         # Creating form object.
         form = forms.EditProfileForm(request, request.POST, request.FILES)
 
         if form.is_valid():
 
             try:
-                # Copy all the post values to data.
-                data = request.POST.copy()
-
-                # Handling checkbox fields.
-                # If field is not checked then make that to none.
-                try:
-                    mail = data['mail']
-                except:
-                    mail = None
-
-                try:
-                    message = data['message']
-                except:
-                    message = None
-
-                try:
-                    phonecall = data['phonecall']
-                except:
-                    phonecall = None
-
-                try:
-                    other = data['other']
-                except:
-                    other = None
-
-                # Handling radio fields.
-                # If field is not checked then make that to none.
-                try:
-                    gender = data['gender']
-                except:
-                    gender = None
-
-                # Handling image fields.
-                # If file is not uploaded then make image to none.
-                try:
-                    image = data['image']
-                except:
-                    image = None
-
-                # Handling Date of birth fields.
-                if data['date_of_birth'] in ['', ' ', None]:
-                    data['date_of_birth'] = None
-
-                # Handling phone fields.
-                if data['phone'] in ['', ' ', None]:
-                    data['phone'] = None
-
-                # Handling image uploading.
-                try:
-                    upload_to = 'uploads/{0}/'.format(request.user.pk)
-                    image = '{0}{1}'.format(upload_to, request.FILES['image'])
-                except Exception as e:
-                    print(e)
-                    image = None
+                data = form.cleaned_data
 
                 # Store only first_name and last_name fields in data1.
                 # For updating auth_user table.
@@ -176,31 +136,24 @@ def edit_profile(request):
                          'extra_note': data['extra_note'],
                          'zip_code': data['zip_code'],
                          'date_of_birth': data['date_of_birth'],
-                         'address': data['address'], 'gender': gender,
-                         'mail': mail, 'message': message,
-                         'phonecall': phonecall, 'other': other,
-                         'user_id': request.user.pk}
+                         'address': data['address'], 'gender': data['gender'],
+                         'mail': data['mail'], 'message': data['message'],
+                         'phonecall': data['phonecall'],
+                         'other': data['other'], 'user_id': request.user.pk}
 
                 # Handling exceptions in saving the file.
                 try:
+                    upload_to = 'uploads/{0}/'.format(request.user.pk)
+                    image = '{0}{1}'.format(upload_to, request.FILES['image'])
+
                     # calling save file method.
                     save_file(request.FILES['image'], upload_to)
 
                     # adding the image in the data2 dict.
                     data2['image'] = image
+
                 except Exception as e:
-                    print(e)
-
-                # If checkbox is "on" then change it to True.
-                # Else False.
-                data2['mail'] = True if data2['mail'] == 'on' else False
-                data2['message'] = True if data2['message'] == 'on'else False
-                data2['phonecall'] = True if data2['phonecall'] == 'on' else False
-                data2['other'] = True if data2['other'] == 'on' else False
-
-                # To print data1 and data2 in terminal.
-                print(data1)
-                print(data2)
+                    logger.exception("NO IMAGE :" + str(e))
 
                 # Updating auth_user table with data1.
                 User.objects.filter(pk=request.user.pk).update(**data1)
@@ -208,54 +161,57 @@ def edit_profile(request):
                 # Updating UserDetail table with data2.
                 UserDetail.objects.filter(user=request.user.pk).update(**data2)
 
-                print('success')
+                logger.info('EDIT PROFILE: ' + 'SUCCESS')
                 feedback = "successfully updated"
-                ctx = {'form': form, 'title': 'profile page','feedback': feedback}
+                ctx = {'form': form, 'title': 'Edit profile page',
+                       'feedback': feedback, 'edit_profile': 'active'}
                 return render(request, "edit_profile.html", ctx)
 
             except Exception as e:
-
-                # Print the Exception.
-                print(e)
+                logger.exception("EXCEPTION :" + str(e))
         else:
-            # Print is any errors in form.
-            print(form.errors)
+            logger.error('FORM ERRORS: ' + str(form.errors))
 
     # If method is GET.
     elif request.method == 'GET':
-
         # Creating form object.
         form = forms.EditProfileForm(request)
 
     # Context to send in html.
-    ctx = {'form': form, 'title': 'profile page'}
+    ctx = {'form': form, 'title': 'profile page', 'edit_profile': 'active'}
     return render(request, "edit_profile.html", ctx)
 
 
-def save_file(f, upload_to):
+def save_file(file, upload_to):
     """To save the file in a new directory."""
-    file_name = f.name
+    file_name = file.name
 
     # Set path
     path = settings.MEDIA_ROOT + upload_to
-    print(path)
+
+    logger.info('PATH: ' + str(path))
+
     # Create the directory if it doesnt exits.
     if not os.path.exists(path):
         os.makedirs(path)
     destination = open(path + file_name, 'wb+')
 
     # Write the file.
-    for chunk in f.chunks():
+    for chunk in file.chunks():
         destination.write(chunk)
     destination.close()
 
 
 @login_required
 def scrap(request):
-    """View for Scrap page."""
+    """View for Scrap page.
+
+    It validates the form and based on site choice it call the respective
+    method from Scrap class and store the returned values in result to
+    send in html context.
+    """
     # If the method is POST.
     if request.method == 'POST':
-
         # Creating form object.
         form = ScrapSearchForm(request.POST)
 
@@ -270,24 +226,32 @@ def scrap(request):
             # Instantiating Scrap class.
             scrap = Scrap()
 
+            # Setting intial value.
+            feedback = None
+
             # If site choice is 'F'.
             if site_choice == 'F':
                 # Calling flipkart method in Scrap.
                 # Store the return value in result.
                 result = scrap.flipkart(search_item)
+                if not result:
+                    feedback = "Search item not found"
+
             else:
                 # Calling amazon method in Scrap.
                 # Store the return value in result.
                 result = scrap.amazon(search_item)
+                if not result:
+                    feedback = "Search item not found"
 
     # If method is GET.
     elif request.method == 'GET':
-
         # Creating form object.
         form = ScrapSearchForm()
         result = None
+        feedback = None
 
     # Context to send in html.
     ctx = {'title': 'Scrap page', 'scrap': 'active', 'form': form,
-           'result': result}
+           'result': result, 'feedback': feedback}
     return render(request, "scrap.html", ctx)

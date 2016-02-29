@@ -1,180 +1,215 @@
 {% extends 'dashboard_base.html' %}
 {% load static %}
-
-
 {% block dashboard_base %}
-
+<!-- Profile container -->
 <div class="container-fluid profile_container">
+	<!-- Profile row -->
     <div class="row profile">
+    	<!-- Profile side bar -->
 		<div class="col-md-3">
+			<!-- Profile sidebar div  -->
 			<div class="profile-sidebar">
-				<!-- SIDEBAR USERPIC -->
+				<!-- Sidebar userpic -->
 				<div class="profile-userpic">
 					{% if user.userdetail.image %}
 					<img src="{% get_static_prefix %}{{user.userdetail.image}}" class="img-responsive" alt="Image not found ">
 					{% else %}
-					<img style="background-color:#F1F3FA" src="{% get_static_prefix %}images/blank-profile.jpg" class="img-responsive" alt="Image not found">
+					<img src="{% get_static_prefix %}images/blank-profile.jpg" class="img-responsive" alt="Image not found">
 					{% endif %}
-				</div>
-				<!-- END SIDEBAR USERPIC -->
-				<!-- SIDEBAR USER TITLE -->
+				</div><!-- end sidebar userpic-->
+				<!-- Sidebar username -->
 				<div class="profile-usertitle">
 					<div class="profile-usertitle-name">
-						{{user.first_name}}
+						{{user.first_name}} {{user.last_name}} 
 					</div>
 					<div class="profile-usertitle-job">
 						{{user.userdetail.user.email}}
 					</div>
-				</div>
-				<!-- END SIDEBAR USER TITLE -->
-				<!-- SIDEBAR BUTTONS -->
-				<!-- <div class="profile-userbuttons">
-					<button type="button" class="btn btn-success btn-sm">Follow</button>
-					<button type="button" class="btn btn-danger btn-sm">Message</button>
-				</div -->
-				<!-- SIDEBAR MENU -->
+				</div><!-- end sidebar username -->
+				<!-- Sidebar menu -->
 				<div class="profile-usermenu">
 					<ul class="nav">
 						<li class="{{profile}}">
 							<a href="{% url 'profile' %}">
-							<i class="glyphicon glyphicon-home"></i>
-							Overview </a>
+							<i class="glyphicon glyphicon-user"></i>
+							Profile </a>
 						</li>
 						<li>
 							<a href="{% url 'edit_profile' %}">
-							<i class="glyphicon glyphicon-user"></i>
-							Account Settings </a>
+							<i class="glyphicon glyphicon-pencil"></i>
+							Edit profile </a>
 						</li>
 						<li>
 							<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-ok"></i>
-							Tasks </a>
-						</li>
-						<li>
-							<a href="#">
 							<i class="glyphicon glyphicon-flag"></i>
 							Help </a>
 						</li>
+						<li>
+							<a href="{% url 'logout' %}">
+							<i class="glyphicon glyphicon-log-out"></i>
+							Logout </a>
+						</li>
 					</ul>
-				</div>
-				<!-- END MENU -->
-			</div>
-		</div>
+				</div><!-- end sidebar menu-->
+			</div><!-- end profile sidebar div  -->
+		</div><!-- end profile sidebar  -->
+		<!-- Profile content -->
 		<div class="col-md-9">
+			<!-- Profile content div -->
             <div class="profile-content">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="page-header">
-									<h1>
-										Profile
-									</h1>
-								</div>
-							</div>
+            	<!--Heading row  -->
+				<div class="row">
+					<!-- Heading div -->
+					<div class="col-md-12">
+						<div class="page-header">
+							<!-- heading -->
+							<h1>Profile</h1>
 						</div>
-						<!-- personal information -->
-						<div class="row">
-							<div class="col-md-3">
-								Personal Information
-							</div>
-							<div class="col-md-2">
-								<div class="col-md-12"><p>Name</p></div>
-								<div class="col-md-12"><p>Gender</p></div>
-								<div class="col-md-12"><p>Date of birth</p></div>
-								<div class="col-md-12"><p>Marital status</p></div>
-							</div>
-							<div class="col-md-7">
-								<div class="col-md-12"><P>{{user.first_name}} {{user.last_name}}</P></div>
-								<div class="col-md-12"><P>{{user.userdetail.get_gender_display}}</P></div>
-								<div class="col-md-12"><P>{{user.userdetail.date_of_birth}}</P></div>
-								<div class="col-md-12"><P>{{user.userdetail.get_marital_display}}</P></div>
-							</div>
-						</div>
-						<!-- contact detail -->
-						<div class="page-header"></div>						
-						<div class="row">
-							<div class="col-md-3">
-								Contact Details
-							</div>
-							<div class="col-md-2">
-								<div class="col-md-12"><p>Email</p></div>
-								<div class="col-md-12"><p>Phone</p></div>
-							</div>
-							<div class="col-md-7">
-								<div class="col-md-12"><P>{{user.email}}</P></div>
-								<div class="col-md-12"><P>{{user.userdetail.phone}}</P></div>
-							</div>
-						</div>
-						<!-- address -->
+					</div><!-- end heading div -->
+				</div><!-- end heading row -->
+				<!-- Profile content row -->
+				<div class="row">
+					<!-- Personal information div-->
+					<div class="col-md-12">
+						<table class="table borderless">
+							<tr>
+								<th class="col-md-3"><p>Personal Information</p></th>
+								<td class="col-md-3"></td>
+								<td class="col-md-6"></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Name :</p></td>
+								<td class="col-md-6"><P>{{user.first_name}} {{user.last_name}}</P></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Gender :</p></td>
+								<td class="col-md-6"><P>{{user.userdetail.get_gender_display}}</P></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Date of birth :</p></td>
+								<td class="col-md-6"><P>{{user.userdetail.date_of_birth}}</P></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Marital status :</p></td>
+								<td class="col-md-6"><P>{{user.userdetail.get_marital_display}}</P></td>
+							</tr>
+						</table>
+					</div> <!-- end personal information div -->
+					<!-- Contact detail div-->
+					<div class="col-md-12">
+						<!-- Line divider -->
 						<div class="page-header"></div>
-						<div class="row">
-							<div class="col-md-3">
-								Address
-							</div>
-							<div class="col-md-2">
-								<div class="col-md-12"><p>Address</p></div>
-								<div class="col-md-12"><p>Street</p></div>
-								<div class="col-md-12"><p>City</p></div>
-								<div class="col-md-12"><p>State</p></div>
-								<div class="col-md-12"><p>Zip code</p></div>
-							</div>
-							<div class="col-md-7">
-								<div class="col-md-12"><P>{{user.userdetail.address}}</P></div>
-								<div class="col-md-12"><P>{{user.userdetail.street}}</P></div>
-								<div class="col-md-12"><p>{{user.userdetail.city}}</p></div>
-								<div class="col-md-12"><p>{{user.userdetail.state}}</p></div>
-								<div class="col-md-12"><p>{{user.userdetail.zip_code}}</p></div>
-							</div>
-						</div>
-						<!-- extra note -->
+						<table class="table borderless">
+							<tr>
+								<th class="col-md-3"><p>Contact Details</p></th>
+								<td class="col-md-3"></td>
+								<td class="col-md-6"></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Email :</p></td>
+								<td class="col-md-6"><P>{{user.email}}</P></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Phone :</p></td>
+								<td class="col-md-6"><P>{{user.userdetail.phone}}</P></td>
+							</tr>
+						</table>
+					</div><!-- end contact detail div -->
+					<!-- Address div-->
+					<div class="col-md-12">
+						<!-- Line divider -->
 						<div class="page-header"></div>
-						<div class="row">
-							<div class="col-md-3">
-								Extra Note
-							</div>
-							<div class="col-md-9">
-								<div class="col-md-12">
-									<p>
-										{{user.userdetail.extra_note}}
-									</p>
-								</div>
-							</div>
-						</div>
-						<!-- preffered communication -->
+						<table class="table borderless">
+							<tr>
+								<th class="col-md-3"><p>Address</p></th>
+								<td class="col-md-3"></td>
+								<td class="col-md-6"></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Address :</p></td>
+								<td class="col-md-6"><P>{{user.userdetail.address}}</P></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Street :</p></td>
+								<td class="col-md-6"><P>{{user.userdetail.street}}</P></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>City :</p></td>
+								<td class="col-md-6"><P>{{user.userdetail.city}}</P></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>State :</p></td>
+								<td class="col-md-6"><P>{{user.userdetail.state}}</P></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Zip code :</p></td>
+								<td class="col-md-6"><P>{{user.userdetail.zip_code}}</P></td>
+							</tr>
+						</table>
+					</div><!-- end address div -->
+					<!-- Preferred communication -->
+					<div class="col-md-12">
+						<!-- Line divider -->
 						<div class="page-header"></div>
-						<div class="row">
-							<div class="col-md-3">
-								Preffered communication
-							</div>
-							<div class="col-md-2">
-								<div class="col-md-12">
-									<p>
-										<ul>
-											{% if user.userdetail.mail %}
-												<li><h4>mail</h4></li>
-											{% endif%}
-											{% if user.userdetail.message %}
-												<li><h4>message</h4></li>
-											{% endif%}
-											{% if user.userdetail.phonecall %}
-												<li><h4>phonecall</h4></li>
-											{% endif%}
-											{% if user.userdetail.other %}
-												<li><h4>other</h4></li>
-											{% endif%}
-
-										</ul>
-									</p>
-								</div>
-							</div>
-							<div class="col-md-7">
-							</div>
-						</div>
-
-						
-	            </div> <!--profile-content end-->
-		</div>
-	</div>
-</div>
-
-
+						<table class="table borderless">
+							<tr>
+								<th class="col-md-3"><p>Preferred communication</p></th>
+								<td class="col-md-3"></td>
+								<td class="col-md-6"></td>
+							</tr>
+							<tr>
+								<th class="col-md-3"></th>
+								<td class="col-md-3"><p>Mail :</p></td>
+								<td class="col-md-6">{% if user.userdetail.mail %}<span class="glyphicon glyphicon-ok"></span>{% endif%}</td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Message :</p></td>
+								<td class="col-md-6"><P>{% if user.userdetail.message %}<span class="glyphicon glyphicon-ok"></span>{% endif%}</P></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Phone call :</p></td>
+								<td class="col-md-6"><P>{% if user.userdetail.phonecall %}<span class="glyphicon glyphicon-ok"></span>{% endif%}</P></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>Other :</p></td>
+								<td class="col-md-6"><P>{% if user.userdetail.other %}<span class="glyphicon glyphicon-ok"></span>{% endif%}</P></td>
+							</tr>
+						</table>
+					</div><!-- end preferred communication -->
+					<!-- Extra note div-->
+					<div class="col-md-12">
+						<!-- Line divider -->
+						<div class="page-header"></div>
+						<table class="table borderless">
+							<tr>
+								<th class="col-md-3"><p>Extra note</p></th>
+								<td class="col-md-3"></td>
+								<td class="col-md-6"></td>
+							</tr>
+							<tr>
+								<td class="col-md-3"><p></p></td>
+								<td class="col-md-3"><p>{{user.userdetail.extra_note}}</p></td>
+								<td class="col-md-6"><P></P></td>
+							</tr>
+						</table>
+					</div><!-- end extra note div -->
+				</div> <!-- end of profile content row -->											
+            </div> <!-- end profile content div-->
+		</div><!-- end profile content -->
+	</div><!-- end profile row -->
+</div><!-- end profile container -->
 {% endblock %}

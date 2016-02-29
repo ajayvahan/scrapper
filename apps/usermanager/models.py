@@ -1,12 +1,13 @@
-"""Models for usermanager app."""
+"""Models for usermanager app.
+
+It contains models of UserDetail and UserActivation.
+"""
 
 
 from django.db import models
 from django.contrib.auth.models import User
 from apps import constants as con
-import datetime
-
-# Create your models here.
+from django.utils import timezone
 
 
 def generate_filename(self, filename):
@@ -42,16 +43,16 @@ class UserDetail(models.Model):
     city = models.CharField(max_length=30, null=True, blank=True)
     state = models.CharField(max_length=30, null=True, blank=True)
     zip_code = models.CharField(max_length=6, null=True, blank=True)
-    phone = models.IntegerField(default=0, null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
     extra_note = models.CharField(max_length=254, null=True, blank=True)
 
-    # boolean fields.
+    # Boolean fields.
     mail = models.BooleanField(default=False)
     message = models.BooleanField(default=False)
     phonecall = models.BooleanField(default=False)
     other = models.BooleanField(default=False)
 
-    # image field.
+    # Image field.
     image = models.ImageField(
         upload_to='static/uploads/', null=True, blank=True
     )
@@ -60,16 +61,20 @@ class UserDetail(models.Model):
         """Value to return when object is called."""
         return self.city
 
+
 class UserActivation(models.Model):
     """Model for storing user activation key."""
+
     # One-to-one relation with auth_user table
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
     )
 
+    # Char fields.
     activation_key = models.CharField(max_length=40, blank=True)
-    key_expires = models.DateTimeField(default=datetime.date.today())
+    key_expires = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
+        """Value to return when object is called."""
         return self.user.username
