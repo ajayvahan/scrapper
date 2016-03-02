@@ -19,6 +19,11 @@ from apps.home.scrap import Scrap
 from apps.home.forms import ScrapSearchForm, DashboardSearchForm
 from apps.home.models import Product
 from django.db.models import Q
+from django.template.loader import render_to_string
+from django.template import RequestContext
+from django.http import HttpResponse
+import json
+from django.core import serializers
 import logging
 
 # Get an instance of a logger
@@ -55,7 +60,8 @@ def dashboard_search(request):
     feedback = None
 
     # If method is GET.
-    if request.method == 'GET':
+    # if request.method == 'GET':
+    if request.is_ajax():
 
         # Creating form object.
         form = DashboardSearchForm(request.GET)
@@ -88,17 +94,23 @@ def dashboard_search(request):
                 # Send feedback.
                 feedback = "Search in Scrap page "
 
+        ctx = {'result': result, 'dashboard_feedback': feedback}
+        result = render_to_string(
+            'result.html', ctx,
+            context_instance=RequestContext(request))
+        json_data = {'result': result}
+        return HttpResponse(
+            json.dumps(json_data), content_type='application/json')
+
     # If method POST.
     if request.method == 'POST':
 
         # Creating form object.
         form = DashboardSearchForm()
 
-    # Context to send in html.
-    ctx = {'title': 'Dashboard page', 'dashboard': 'active',
-           'form': form, 'result': result, 'feedback': feedback}
-    return render(request, "dashboard.html", ctx)
-
+        # Contexts to send in html.
+        ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form}
+        return render(request, "dashboard.html", ctx)
 
 @login_required
 def profile(request):
@@ -243,6 +255,14 @@ def scrap(request):
                 result = scrap.amazon(search_item)
                 if not result:
                     feedback = "Search item not found"
+
+            ctx = {'result': result, 'scrap_feedback': feedback}
+            result = render_to_string(
+                'result.html', ctx,
+                context_instance=RequestContext(request))
+            json_data = {'result': result}
+            return HttpResponse(
+                json.dumps(json_data), content_type='application/json')
 
     # If method is GET.
     elif request.method == 'GET':

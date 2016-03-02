@@ -1,0 +1,60 @@
+{% if dashboard_feedback %}
+	<!-- For displaying feedback message -->
+	<div class="col-sm-12 text-center  ">
+		<h3 class="text-warning">Sorry! Search item is not present in database.<a href="{% url 'scrap' %}">Lets scrap it.</a></h3>
+	</div>
+{% endif %}
+{% if scrap_feedback %}
+	<!-- Feedback div -->
+	<div class='col-sm-12 col-sm-offset-'>
+		<div class="col-sm-12 text-center  ">
+			<h3 class="text-danger">Sorry! Search item not found, try something else.</h3>
+		</div>
+	</div><!-- end feedback div -->
+{% endif %}
+
+{%if result%}
+	<!-- Dashboard row-2 -->
+	<div class="row">
+		{% for r in result %}
+		<!-- Results div -->
+		<div class='col-sm-12 col-sm-offset-'>
+			<!-- Pageheader for divide line -->
+			<div class="page-header col-sm-12"></div>
+			<!--  Product div -->
+			<div class="col-sm-12">
+				<!-- Product image div -->
+				<div class="col-md-3 text-center">
+					<a href="{{r.landing_url}}">
+						<img class="text-center" src="{{r.image}}"/>
+					</a>
+				</div><!-- end product image div -->
+				<!-- Product details div -->
+				<div class="col-sm-7">
+					<!-- Product name field -->
+					<div class="col-sm-12">
+						<a href="{{r.landing_url}}"><h4>{{r.name}}</h4></a>
+					</div>
+					<!-- Product price field -->
+					<div class="col-sm-12">
+						<h4>Rs: <a href="{{r.landing_url}}"><span class="text-danger">{{r.price}}</span></h4></a>
+					</div>
+					<!-- Product category -->
+					<div class="col-sm-12">
+						<h5>Category: {{r.product_type}}</h5>
+					</div>
+					<!-- Product site referencd -->
+					<div class="col-sm-12">
+						<h5>in <a href="{{r.landing_url}}"><span class="text-success">{{r.site_reference}}</span></h5></a>
+					</div>
+				</div><!-- end product details div -->
+				<!-- Product buy div -->
+				<div class="col-sm-2 ">
+					<div class="text-center"><a href="{{r.landing_url}}" class="btn btn-lg btn-warning">Buy</a></div>
+				</div><!-- end product but div -->
+			</div><!-- end Product div -->
+
+		</div><!-- end results div -->
+		{% endfor %}
+	</div><!-- end dashboard row-2 -->
+	{% endif %}

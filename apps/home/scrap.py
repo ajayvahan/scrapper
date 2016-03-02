@@ -55,48 +55,16 @@ class Scrap(object):
             product_list = []
 
             for div_tag in div_tags:
-                # Finding price in div.
-                price = div_tag.find('div', {'class': 'pu-final'}).span.get_text()
-
-                # Extracting only numbers from price.
-                price = price.replace('Rs.', '').strip(' ').replace(',', '')
-
-                # Finding product name in div
-                name = div_tag.find(
-                    'div', {'class': 'pu-details lastUnit'}).a.get_text().strip()
-
-                # Finding landing href of the product.
-                href = self.flipkart_URL + div_tag.a.attrs['href']
-
-                # Finding image src from img tag in div.
-                img_src = div_tag.img.attrs['data-src']
-
-                # Finding description of product in div.
-                description = div_tag.find('ul', {'class': 'pu-usp'})
-
-                # Handling if product_type doesnt exist.
-                try:
-                    # if present assign to product_type.
-                    product_type = div_tag.find(
-                        'div', {'class': 'pu-category'}).span.get_text()
-
-                except:
-                    # if not present then product_type is search argument.
-                    product_type = search
-
-                # Storing all values in data dict.
-                data = {
-                    'name': name, 'product_type': product_type, 'price': price,
-                    'description': str(description), 'landing_url': href,
-                    'image': img_src, 'site_reference': 'flipkart'
-                }
-
+                if search in ['book', 'books']:
+                    data = Scrap.flipkart_books(self, div_tag, search)
+                else:
+                    data = Scrap.flipkart_general(self, div_tag, search)
                 try:
                     # Filtering product table with specific parameters
                     # If exist store in product variable.
                     product = Product.objects.filter(
-                        site_reference='flipkart', name=name,
-                        product_type=product_type
+                        site_reference='flipkart', name=data['name'],
+                        product_type=data['product_type']
                     )
 
                     # If product exist.
@@ -129,6 +97,85 @@ class Scrap(object):
             logger.exception("EXCEPTION :" + str(e))
             feedback = None
             return feedback
+
+    def flipkart_general(self, div_tag, search):
+        """Flipkart function for general search."""
+        # Finding price in div.
+        price = div_tag.find('div', {'class': 'pu-final'}).span.get_text()
+
+        # Extracting only numbers from price.
+        price = price.replace('Rs.', '').strip(' ').replace(',', '')
+
+        # Finding product name in div
+        name = div_tag.find(
+            'div', {'class': 'pu-details lastUnit'}).a.get_text().strip()
+
+        # Finding landing href of the product.
+        href = self.flipkart_URL + div_tag.a.attrs['href']
+
+        # Finding image src from img tag in div.
+        img_src = div_tag.img.attrs['data-src']
+
+        # Finding description of product in div.
+        description = div_tag.find('ul', {'class': 'pu-usp'})
+
+        # Handling if product_type doesnt exist.
+        try:
+            # if present assign to product_type.
+            product_type = div_tag.find(
+                'div', {'class': 'pu-category'}).span.get_text()
+
+        except:
+            # if not present then product_type is search argument.
+            product_type = search
+
+        # Storing all values in data dict.
+        data = {
+            'name': name, 'product_type': product_type, 'price': price,
+            'description': str(description), 'landing_url': href,
+            'image': img_src, 'site_reference': 'flipkart'
+        }
+
+        return data
+
+    def flipkart_books(self, div_tag, search):
+        """Function to search specifically books"""
+        # Finding price in div.
+        price = div_tag.find('div', {'class': 'pu-final'}).get_text()
+
+        # Extracting only numbers from price.
+        price = price.replace('Rs.', '').strip(' ').replace(',', '')
+
+        # Finding product name in div
+        name = div_tag.find('div', {'class': 'lu-title-wrapper'}).a.get_text()
+
+        # Finding landing href of the product.
+        href = self.flipkart_URL + div_tag.a.attrs['href']
+
+        # Finding image src from img tag in div.
+        img_src = div_tag.img.attrs['data-src']
+
+        # Finding description of product in div.
+        description = div_tag.find('ul', {'class': 'pu-usp'})
+
+        # Handling if product_type doesnt exist.
+        try:
+            # if present assign to product_type.
+            product_type = div_tag.find(
+                'div', {'class': 'pu-category'}).span.get_text()
+
+        except:
+            # if not present then product_type is search argument.
+            product_type = search
+
+        # Storing all values in data dict.
+        data = {
+            'name': name, 'product_type': product_type, 'price': price,
+            'description': str(description), 'landing_url': href,
+            'image': img_src, 'site_reference': 'flipkart'
+        }
+
+        return data
 
     def amazon(self, search=None):
         """Scrapping amazon.
