@@ -3,48 +3,57 @@
 
 {% block dashboard_base %}
 <!-- Dashboard container -->
-<div class="container dashboard_container">
+<div class="container dashboard-container">
 	<!-- Dashboard row-1 -->
  	<div class="row">
  		<!-- Search div -->
 	 	<div class = "col-sm-12 ">
-	 		<!-- Dashboard header -->
-			<h3 class="text-center">What would you like to search?</h3>
 			<!-- Dashboard form -->
-			<form id="dashboard_form" action={% url 'dashboard_search' %} method='get'>
+			<form id="dashboard_form" action="{% url 'dashboard_search' %}" method='get'>
 				<!-- Search box field -->
 				<div class="form-group col-sm-8 col-sm-offset-2">
 					{{ form.non_field_errors }}
 					{% if form.search_item.errors %}
 						<!-- For displaying errors -->
-						<div class="has-error has-feedback">
-							{{ form.search_item }}
-							<!-- For displaying error messages inline -->
-							<span class="help-inline text-danger">
-			                    {% for error in  form.search_item.errors %}{{ error }}{% endfor %}
-			                </span>
-			                <!-- Giving cross glyhicon -->
-			                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+						<div class="dashboard-input-div col-sm-10">
+							<div class="has-error has-feedback">
+								{{ form.search_item }}
+								<!-- For displaying error messages inline -->
+								<span class="help-inline text-danger">
+				                    {% for error in  form.search_item.errors %}{{ error }}{% endfor %}
+				                </span>
+				                <!-- Giving cross glyphicon -->
+				                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+							</div>
 						</div>
 					{% else %}
-						<!-- For displaying input field with glyphicon inside it -->
-						<div class="controls has-feedback">
-	 						{{form.search_item}}
-	 						<!-- Giving search glyphicon -->
-	 						<span class="glyphicon glyphicon-search form-control-feedback"></span>
+						<div class="dashboard-input-div col-sm-10 ">
+							<!-- For displaying input field with glyphicon inside it -->
+							<div class="inner-addon left-addon">
+								<!-- Giving search glyphicon -->
+		 						<i class="glyphicon glyphicon-search"></i>
+		 						{{form.search_item}}	
+	 						</div>
 						</div>
 					{% endif %}		
+				
+					<!--  Dashboard submit button -->
+	 				<div class=" dashboard-submit-div col-sm-2 ">
+						<div class="form-group col-sm-2 text-center" >
+							<button id="dashboard-sumbit" type="submit" class="btn btn-primary " >Search</button>
+						</div>
+					</div>
 				</div><!-- end search box fields -->
-				<!--  Dashboard submit button -->
- 				<div class="form-group col-sm-12 text-center">
-					<button id="dashboard_sumbit" type="submit" class="btn btn-primary " >Search</button>
-				</div>
 			</form><!-- end dashboard form -->
 		</div><!-- end search div -->
 	</div><!-- end dashboard row-1 -->
 	<!-- Dashboard row-2 -->
 	<div class="row">
-		<div id="dashboard_result"></div>
+			<div id="dashboard-result"></div>
+			<div id="dashboard-loading">
+				<div class="text-center"><img class="" src="{% static 'images/loading.gif' %}" alt="Generic placeholder image" width="140" height="140">
+				</div>
+			</div>
 	</div><!-- end dashboard row-2 -->
  </div><!-- end dashboard container -->
 {% endblock %}

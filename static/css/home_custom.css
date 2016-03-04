@@ -4,7 +4,7 @@
 
 /* HTML AND BODY CUSTOMIZATION
 -------------------------------------------------- */
-
+/* Specifying color,padding,margin and font for body */
 body {
   color: #5a5a5a;
   padding: 0;
@@ -33,9 +33,7 @@ body {
   padding-right: 15px;
   padding-left: 15px;
 }
-.navbar-wrapper .navbar .container {
-  width: auto;
-}
+.navbar-wrapper .navbar .container { width: auto; }
 
 
 /* IN HOME PAGE, CUSTOMIZE THE CAROUSEL
@@ -47,9 +45,7 @@ body {
   margin-bottom: 60px;
 }
 /* Since positioning the image, we need to help out the caption */
-.carousel-caption {
-  z-index: 10;
-}
+.carousel-caption { z-index: 10; }
 
 /* Declare heights because of positioning of img element */
 .carousel .item {
@@ -84,10 +80,8 @@ body {
 
 /* Featurettes
 ------------------------- */
-
-.featurette-divider {
-  margin: 80px 0; /* Space out the Bootstrap <hr> more */
-}
+/* Space out the Bootstrap <hr> more */
+.featurette-divider { margin: 80px 0; }
 
 /* Thin out the marketing headings */
 .featurette-heading {
@@ -95,8 +89,6 @@ body {
   line-height: 1;
   letter-spacing: -1px;
 }
-
-
 
 /* CUSTOMIZE THE FOOTER
 -------------------------------------------------- */
@@ -111,37 +103,81 @@ ul.unstyled{
       padding: 0;
 }
 
+/* Positioning glyphicon left side inside input field
+------------------------------------------------------- */
+/* Enable absolute positioning */
+.inner-addon { position: relative; }
+
+/* Style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+/* Rounded corner for text input fields */
+.inner-addon input { border-radius: 3px; }
+
+/* Align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* Add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+/* Color for glyphicon */
+.error-color{ color: #A94442; }
+
+/* CSS COMMON FOR BOTH LOGIN AND SIGNUP PAGE
+------------------------------------------------------- */
+.header-div{
+  margin:0;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background-color: #5CB85C;
+  color: #FFF;
+}
+.header-div h3{ margin: 0px; }
+
+/* Adding background color to form div */
+.form-div{
+  padding: 25px 15px;
+  background-color: #FFF;
+}
+
 /* CUSTOMIZE THE LOGIN PAGE
 -------------------------------------------------- */
-.login_container{
+/* Background for container fluid */
+.login-container-fluid{ background-color: #7D7B7B; }
+
+/* set minimum height for container */
+.login-container{
   margin-top:100px;
   min-height: 400px !important;
 }
 
-.login_div{
-  border: 1px solid #D8DCDE;
-  border-radius: 10px;
-  background-color: #BAE0DD;
-}
+/* Remove padding in login div */
+.login-div{ padding: 0px; }
+
 
 /* CUSTOMIZE THE SIGNUP PAGE
 -------------------------------------------------- */
-.signup_container{
+/* Background for container fluid */
+.signup-container-fluid{ background-color: #7D7B7B; }
+
+/* set minimum height for container */
+.signup-container{
   min-height: 400px;
   margin-top:70px;
   margin-bottom: 20px;
 }
 
-.signup_div{
-  border: 1px solid #D8DCDE;
-  border-radius: 10px;
-  background-color: #BAE0DD;
-}
+/* Remove padding in login div */
+.signup-div{ padding: 0px; }
 
 /* CUSTOMIZE THE ACTIVATE PAGE
 -------------------------------------------------- */
-
-.activate_container{
+.activate-container{
   margin-top: 250px;
   min-height: 250px;
 }

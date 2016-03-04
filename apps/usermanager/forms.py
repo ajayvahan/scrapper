@@ -19,31 +19,43 @@ class SignUpForm(forms.Form):
     first_name = forms.CharField(
         max_length=30, required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'required': True}))
+            attrs={
+                'class': 'form-control', 'required': False, 'autofocus': True,
+                'placeholder': 'First name'}))
     last_name = forms.CharField(
         max_length=30, required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'required': True}))
+            attrs={
+                'class': 'form-control', 'required': False, 'autofocus': True,
+                'placeholder': 'Last name'}))
     username = forms.CharField(
         max_length=30, required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'required': True}))
+            attrs={
+                'class': 'form-control', 'required': False, 'autofocus': True,
+                'placeholder': 'Username'}))
 
     # Email field.
     email = forms.EmailField(
         max_length=254, required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'required': True}))
+             attrs={
+                'class': 'form-control', 'required': False, 'autofocus': True,
+                'placeholder': 'Email'}))
 
     # Password fields.
     password = forms.CharField(
         max_length=128, required=True,
-        widget=forms.PasswordInput(
-            attrs={'class': 'form-control', 'required': True}))
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control', 'required': False, 'autofocus': True,
+                'placeholder': 'Password'}))
     confirm_password = forms.CharField(
         max_length=128, required=True,
-        widget=forms.PasswordInput(
-            attrs={'class': 'form-control', 'required': True}))
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control', 'required': False, 'autofocus': True,
+                'placeholder': 'Confirm password'}))
 
 
 class LoginForm(forms.Form):
@@ -56,13 +68,17 @@ class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=30, required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'required': True}))
+            attrs={
+                'class': 'form-control', 'required': False, 'autofocus': True,
+                'placeholder': 'Username'}))
 
     # Password field.
     password = forms.CharField(
         max_length=128, required=True,
-        widget=forms.PasswordInput(
-            attrs={'class': 'form-control', 'required': True}))
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control', 'required': False, 'autofocus': True,
+                'placeholder': 'Password'}))
 
 
 class EditProfileForm(forms.ModelForm):
@@ -79,8 +95,7 @@ class EditProfileForm(forms.ModelForm):
     last_name = forms.CharField(
         max_length=30, required=True,
         widget=forms.TextInput(attrs={
-            'class': 'form-control', 'required': False})
-    )
+            'class': 'form-control', 'required': False}))
 
     # Radio field.
     gender = forms.ChoiceField(

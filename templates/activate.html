@@ -2,15 +2,17 @@
 {% load staticfiles %}
 {% block home_base %}
 	<!-- Active container -->
-	<div class="container activate_container">
+	<div class="container activate-container">
 		<div class = "col-sm-8 col-sm-offset-2">
 			{% if feedback %}
+			<!-- For error message -->
 			<div class="alert alert-danger">
 				<a class="close" href="#" data-dismiss="alert">x</a>
 				<strong>Error!</strong>
 				  	{{feedback}}
 			</div>
 			{% else %}
+			<!-- For success message -->
 			<div class="alert alert-success">
 				<a class="close" href="#" data-dismiss="alert">x</a>
 				<strong>Success!</strong>

@@ -4,81 +4,89 @@
 {% block home_base %}
 
 	<!-- Login container -->
-	<div class = "container login_container">
+	<div class = "container-fluid login-container-fluid">
+	<div class = "container login-container">
 		<!-- Login row -->
 		<div class="row">
 			<div class="col-md-4 col-sm-3 "></div><!-- end empty div -->
 			<!-- Login div -->
-			<div  class = "col-md-4 col-sm-6  login_div">
+			<div  class = "col-md-4 col-sm-6  login-div">
 					<!-- Login header -->
-					<h3 class="page-header text-center" > Login</h3>
-					{% for message in messages %}
-					    {% if 'error' in message.tags %}
-					    	<!-- For displaying error messages in alert box -->
-					        <div class="alert alert-danger">
-					            <a class="close" href="#" data-dismiss="alert">×</a>
-					            <strong>Error!</strong>
-					                {{ message }}
-					        </div>
-					    {% endif %}
-					{% endfor %}
-					<!-- Login form -->
-					<form action="{% url 'login' %}" method="post">{% csrf_token%}
-						{{ form.non_field_errors }}
-							<!-- User name field -->
-							<div class="form-group">
-								{{ form.username.label_tag }}
-								{% if form.username.errors %}
-								<!-- For displaying errors -->
-								<div class="has-error has-feedback">
-									{{ form.username }}
-									<!-- For displaying error messages inline -->
-									<span class="help-inline text-danger">
-					                    {% for error in  form.username.errors %}{{ error }}{% endfor %}
-							        </span>
-							        <!-- Giving cross glyhicon -->
-							        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-								</div>
-								{% else %}
-								<!-- For displaying input field with glyphicon inside it -->
-								<div class="controls has-feedback">
-									{{ form.username }}
-									<!-- Giving user glyhicon -->
-					        		<span class="glyphicon glyphicon-user form-control-feedback"></span>
-								</div>
-								{% endif %}
-							</div>
-							<!-- Password name field -->
-							<div class="form-group">
-								{{ form.password.label_tag }}
-								{% if form.password.errors %}
-								<!-- For displaying errors -->
-								<div class="has-error has-feedback">
-									{{ form.password }}
-									<!-- For displaying error messages inline -->
-									<span class="help-inline text-danger">
-					                    {% for error in  form.password.errors %}{{ error }}{% endfor %}
-							        </span>
-							        <!-- Giving cross glyhicon -->
-							        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-								</div>
-								{% else %}
-								<!-- For displaying input field with glyphicon inside it -->
-									<div class="controls has-feedback">
-										{{ form.password }}
-									<!-- Giving Lock glyphicon -->
-					        	 	<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+					<div class="header-div">
+						<h3 class="text-center" ><span class="glyphicon glyphicon-lock "></span> Login</h3>
+					</div>
+					<div class="form-div">
+						{% for message in messages %}
+						    {% if 'error' in message.tags %}
+						    	<!-- For displaying error messages in alert box -->
+						        <div class="alert alert-danger">
+						            <a class="close" href="#" data-dismiss="alert">×</a>
+						            <strong>Error!</strong>
+						                {{ message }}
+						        </div>
+						    {% endif %}
+						{% endfor %}
+						<!-- Login form -->
+						<form action="{% url 'login' %}" method="post">{% csrf_token%}
+							{{ form.non_field_errors }}
+								<!-- User name field -->
+								<div class="form-group">
+									{{ form.username.label_tag }}
+									{% if form.username.errors %}
+									<!-- For displaying errors -->
+									<div class="has-error has-feedback inner-addon left-addon">
+										<!-- Giving cross glyhicon -->
+										<i class="glyphicon glyphicon-user error-color"></i>
+										{{ form.username }}
+										<!-- For displaying error messages inline -->
+										<span class="help-inline text-danger">
+						                    {% for error in  form.username.errors %}{{ error }}{% endfor %}
+								        </span>
 									</div>
-								{% endif %}
-							</div>
-						<!-- Login submit button -->
-					    <div class="form-group text-center">
-					        <button type="submit" class="btn btn-primary" >Log in</button>
-					    </div>						
-					</form><!-- end login form -->
+									{% else %}
+									<!-- For displaying input field with glyphicon inside it -->
+									<div class="inner-addon left-addon">
+										<!-- Giving user glyhicon -->
+										<i class="glyphicon glyphicon-user"></i>
+										{{ form.username }}
+									</div>
+									{% endif %}
+								</div>
+								<!-- Password name field -->
+								<div class="form-group">
+									{{ form.password.label_tag }}
+									{% if form.password.errors %}
+									<!-- For displaying errors -->
+									<div class="has-error has-feedback inner-addon left-addon">
+										<!-- Giving cross glyphicon -->
+										<i class="glyphicon glyphicon-eye-open error-color"></i>
+										{{ form.password }}
+										<!-- For displaying error messages inline -->
+										<span class="help-inline text-danger">
+						                    {% for error in  form.password.errors %}{{ error }}{% endfor %}
+								        </span>
+									</div>
+									{% else %}
+									<!-- For displaying input field with glyphicon inside it -->
+										<div class="inner-addon left-addon">
+											<!-- Giving Lock glyphicon -->
+											<i class="glyphicon glyphicon-eye-open"></i>
+											{{ form.password }}
+										</div>
+									{% endif %}
+								</div>
+							<!-- Login submit button -->
+						    <div class="text-center">
+						        <button type="submit" class="btn btn-success" >
+						        	<span class="glyphicon glyphicon-off "></span> Log in
+						        </button>
+						    </div>						
+						</form><!-- end login form -->
+					</div>
 			</div><!-- end login div -->
 			<div class="col-sm-4 col-sm-3 "></div><!-- end empty div -->
 		</div><!-- login row -->
 	</div><!-- end login container -->
+</div>
 
 {% endblock %}

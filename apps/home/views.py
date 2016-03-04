@@ -23,7 +23,6 @@ from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.http import HttpResponse
 import json
-from django.core import serializers
 import logging
 
 # Get an instance of a logger
@@ -59,8 +58,10 @@ def dashboard_search(request):
     result = None
     feedback = None
 
-    # If method is GET.
-    # if request.method == 'GET':
+    # Creating form object.
+    form = DashboardSearchForm()
+
+    # If method is ajax
     if request.is_ajax():
 
         # Creating form object.
@@ -94,13 +95,25 @@ def dashboard_search(request):
                 # Send feedback.
                 feedback = "Search in Scrap page "
 
+        # Context to send in html.
         ctx = {'result': result, 'dashboard_feedback': feedback}
+
+        # Passing the context to html and rendering to string.
+        # Store it in result variable.
         result = render_to_string(
             'result.html', ctx,
             context_instance=RequestContext(request))
+
+        # dictionary to pass in json.dumps.
         json_data = {'result': result}
+
+        # Send HttpResponse using json.dumps.
         return HttpResponse(
             json.dumps(json_data), content_type='application/json')
+
+    # Contexts to send in html.
+    ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form}
+    return render(request, "dashboard.html", ctx)
 
     # If method POST.
     if request.method == 'POST':
@@ -111,6 +124,7 @@ def dashboard_search(request):
         # Contexts to send in html.
         ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form}
         return render(request, "dashboard.html", ctx)
+
 
 @login_required
 def profile(request):
@@ -190,7 +204,8 @@ def edit_profile(request):
         form = forms.EditProfileForm(request)
 
     # Context to send in html.
-    ctx = {'form': form, 'title': 'profile page', 'edit_profile': 'active'}
+    ctx = {'form': form, 'title': 'Edit profile page',
+           'edit_profile': 'active'}
     return render(request, "edit_profile.html", ctx)
 
 
@@ -256,11 +271,19 @@ def scrap(request):
                 if not result:
                     feedback = "Search item not found"
 
+            # Context to send in html.
             ctx = {'result': result, 'scrap_feedback': feedback}
+
+            # Passing the context to html and rendering to string.
+            # Store it in result variable.
             result = render_to_string(
                 'result.html', ctx,
                 context_instance=RequestContext(request))
+
+            # dictionary to pass in json.dumps.
             json_data = {'result': result}
+
+            # Send HttpResponse using json.dumps.
             return HttpResponse(
                 json.dumps(json_data), content_type='application/json')
 

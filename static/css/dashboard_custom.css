@@ -1,6 +1,6 @@
 /* HTML AND BODY CUSTOMIZATION
 -------------------------------------------------- */
-
+/* Specifying color,padding,margin and font for body */
 body {
   color: #5a5a5a;
   font-family: Montserrat,sans-serif;
@@ -8,7 +8,6 @@ body {
 
 /* CUSTOMIZE THE NAVBAR
 -------------------------------------------------- */
-
 /* Special class on .container surrounding .navbar, used for positioning it into place. */
 .navbar-wrapper {
   position: absolute;
@@ -27,15 +26,10 @@ body {
   padding-right: 15px;
   padding-left: 15px;
 }
-.navbar-wrapper .navbar .container {
-  width: auto;
-}
-
-
+.navbar-wrapper .navbar .container { width: auto; }
 
 /* CUSTOMIZE PROFILE PAGE.
 -------------------------------------------------- */
-
 /* Profile container */
 .profile {
   padding-top: 50px;
@@ -47,7 +41,6 @@ body {
   padding: 20px 0 10px 0;
   background: #fff;
 }
-
 .profile-userpic img {
   float: none;
   margin: 0 auto;
@@ -57,19 +50,16 @@ body {
   -moz-border-radius: 50% !important;
   border-radius: 50% !important;
 }
-
 .profile-usertitle {
   text-align: center;
   margin-top: 20px;
 }
-
 .profile-usertitle-name {
   color: #5a7391;
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 7px;
 }
-
 .profile-usertitle-job {
   /*text-transform: uppercase;*/
   color: #5b9bd1;
@@ -77,12 +67,10 @@ body {
   font-weight: 600;
   margin-bottom: 15px;
 }
-
 .profile-userbuttons {
   text-align: center;
   margin-top: 10px;
 }
-
 .profile-userbuttons .btn {
   text-transform: uppercase;
   font-size: 11px;
@@ -90,43 +78,26 @@ body {
   padding: 6px 15px;
   margin-right: 5px;
 }
-
-.profile-userbuttons .btn:last-child {
-  margin-right: 0px;
-}
-    
-.profile-usermenu {
-  margin-top: 30px;
-}
-
+.profile-userbuttons .btn:last-child { margin-right: 0px; }   
+.profile-usermenu { margin-top: 30px; }
 .profile-usermenu ul li {
   border-bottom: 1px solid #f0f4f7;
 }
-
-.profile-usermenu ul li:last-child {
-  border-bottom: none;
-}
-
+.profile-usermenu ul li:last-child { border-bottom: none; }
 .profile-usermenu ul li a {
   color: #93a3b5;
   font-size: 14px;
   font-weight: 400;
 }
-
 .profile-usermenu ul li a i {
   margin-right: 8px;
   font-size: 14px;
 }
-
 .profile-usermenu ul li a:hover {
   background-color: #fafcfd;
   color: #5b9bd1;
 }
-
-.profile-usermenu ul li.active {
-  border-bottom: none;
-}
-
+.profile-usermenu ul li.active { border-bottom: none; }
 .profile-usermenu ul li.active a {
   color: #5b9bd1;
   background-color: #f6f9fb;
@@ -140,27 +111,61 @@ body {
   background: #fff;
   min-height: 460px;
 }
-
-.borderless td, .borderless th {
-    border: none !important;
-}
-
-
-
+.borderless td, .borderless th { border: none !important; }
 
 /* CUSTOMIZE DASHBOARD PAGE
 -------------------------------------------------- */ 
-.dashboard_container{
+.dashboard-container{
   margin-top:100px;
   min-height: 500px !important;
 }
+#dashboard-loading{ display: none; }
+.dashboard-input-div{
+  margin-top:10px;
+  padding:0px;
+}
+.dashboard-submit-div{
+  margin-top:10px;
+  padding:0px;
+}
+.dashboard-submit-div div { padding:0px; }
+.dashboard-submit-div button {
+  border-radius: 0px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+
+}
+/* enable absolute positioning */
+.inner-addon { position: relative; }
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+.inner-addon input {
+  border-radius: 0px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+/* align icon */
+.left-addon .glyphicon  { left:  0px; }
+.right-addon .glyphicon { right: 0px; }
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
 
 /* CUSTOMIZE SCRAP PAGE
 -------------------------------------------------- */ 
-.scrap_container{
+.scrap-container{
   margin-top:100px;
   min-height: 500px !important;
 }
+#scrap-loading{ display: none; }
+.site-choice-div span{ padding-left: 20px; }
 
 /* CUSTOMIZE PROFILE PAGE
 -------------------------------------------------- */ 

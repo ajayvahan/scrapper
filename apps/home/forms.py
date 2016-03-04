@@ -16,8 +16,9 @@ class ScrapSearchForm(forms.Form):
     search_item = forms.CharField(
         max_length=255, required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'required': True})
-    )
+            attrs={
+                'class': 'form-control', 'required': True, 'autofocus': True,
+                'placeholder': 'Scrap here'}))
 
     # Radio fields.
     site_choice = forms.ChoiceField(
@@ -35,6 +36,6 @@ class DashboardSearchForm(forms.Form):
     search_item = forms.CharField(
         max_length=255, required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'required': True}
-        )
-    )
+            attrs={
+                'class': 'form-control', 'required': True, 'autofocus': True,
+                'placeholder': 'What would you like to search?'}))

@@ -3,37 +3,43 @@
 
 {% block dashboard_base %}
 <!-- Scrap container -->
- <div class="container scrap_container">
+ <div class="container scrap-container">
  	<!-- Scrap row-1 -->
  	<div class="row">
  		<!-- Scrap div -->
 	 	<div class = "col-sm-12 ">
-	 		<!-- Scrap header -->
-			<h3 class="text-center">Scrap here</h3>
 			<!-- Scrap form -->
-			<form id="scrap_form" action={% url 'scrap' %} method='post'>{% csrf_token %}
+			<form id="scrap_form" action="{% url 'scrap' %}" method='post'>{% csrf_token %}
 				<!-- Scrap search box field -->
 				<div class="form-group col-sm-8 col-sm-offset-2">
 					{% if form.search_item.errors %}
-						<!-- For displaying errors -->
-						<div class="has-error has-feedback">
-							{{ form.search_item }}
-							<!-- For displaying error messages inline -->
-							<span class="help-inline text-danger">
-			                    {% for error in  form.search_item.errors %}{{ error }}{% endfor %}
-			                </span>
-			                <!-- Giving cross glyhicon -->
-			                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+						<div class="dashboard-input-div col-sm-10">
+							<!-- For displaying errors -->
+							<div class="has-error has-feedback">
+								{{ form.search_item }}
+								<!-- For displaying error messages inline -->
+								<span class="help-inline text-danger">
+				                    {% for error in  form.search_item.errors %}{{ error }}{% endfor %}
+				                </span>
+				                <!-- Giving cross glyhicon -->
+				                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+							</div>
 						</div>
 					{% else %}
-						<!-- For displaying input field with glyphicon inside it -->
-						<div class="controls has-feedback">
-	 						{{form.search_item}}
-	 						<!-- Giving search glyphicon -->
-	 						<span class="glyphicon glyphicon-search form-control-feedback"></span>
+						<div class="dashboard-input-div col-sm-10">
+							<!-- For displaying input field with glyphicon inside it -->
+							<div class="inner-addon left-addon">
+								<!-- Giving search glyphicon -->
+		 						<i class="glyphicon glyphicon-search"></i>
+		 						{{form.search_item}}	
+	 						</div>
 						</div>
 					{% endif %}
-						
+					<div class=" dashboard-submit-div col-sm-2 ">
+						<div class="form-group col-sm-2 text-center" >
+							<button id="scrap-sumbit" type="submit" class="btn btn-primary " >Scrap</button>
+						</div>
+					</div>
 				</div><!-- end scrap search box field -->
 				<!-- Scrap site choice field -->
 				<div class="form-group col-sm-8 col-sm-offset-2">
@@ -48,23 +54,23 @@
 				            </span>
 						</div>
 					{% else %}
-						{{ form.site_choice.label_tag }}
 						<!-- For displaying radio fields -->
-						<div class="col-sm-11 col-sm-offset-1">
-							{% for field in  form.site_choice %}<div>{{ field }}</div>{% endfor %}
+						<div class="site-choice-div col-sm-12">
+							<div>{{ form.site_choice.label_tag }}</div>
+							{% for field in  form.site_choice %}<span>{{ field }}</span>{% endfor %}
 						</div>
 					{% endif %}
 				</div><!-- end scrap site choice field -->
-				<!-- Scrap submit button -->
- 				<div class="form-group col-sm-12 text-center">
-					<button id="scrap_sumbit" type="submit" class="btn btn-primary " >Scrap</button>
-				</div>
 			</form><!-- end scrao form -->
 		</div><!-- end scrap div -->
 	</div><!-- end scrap row-1 -->
 	<!-- Scrap row-2 -->
 	<div class="row">
-		<div id="scrap_result"></div>
+		<div id="scrap-result"></div>
+		<div id="scrap-loading">
+			<div class="text-center"><img class="" src="{% static 'images/loading.gif' %}" alt="Generic placeholder image" width="140" height="140">
+			</div>
+		</div>
 	</div><!-- end scrap row-2 -->
  </div><!-- end scrap container -->
 {% endblock %}
