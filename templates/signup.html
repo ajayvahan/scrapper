@@ -1,6 +1,5 @@
 {% extends 'home_base.html' %}
 {% load staticfiles %}
-
 {% block home_base %}
 	<!-- Signup container -->
 	<div class = "container-fluid signup-container-fluid">
@@ -36,144 +35,150 @@
 						{% endfor %}
 						<!-- Signup form -->
 						<form action="{% url 'signup' %}" method="post">{% csrf_token %}
-								{{ form.non_field_errors }}
-							        <div class="form-group">
-										{% if form.first_name.errors %}
-										<!-- For displaying errors -->
-										<div class="has-error has-feedback inner-addon left-addon">
-											<!-- Giving glyphicon -->
-											<i class="glyphicon glyphicon-pencil error-color"></i>
-											{{ form.first_name }}
-											<!-- For displaying error messages inline -->
-											<span class="help-inline text-danger">
-							                    {% for error in  form.first_name.errors %}{{ error }}{% endfor %}
-									        </span>
-										</div>
-										{% else %}
-										<!-- For displaying input field with glyphicon inside it -->
-										<div class="inner-addon left-addon">
-											<!-- Giving glyphicon -->
-											<i class="glyphicon glyphicon-pencil"></i>
-											{{ form.first_name }}
-										</div>
-										{% endif %}
-									</div>
+							{{ form.non_field_errors }}
+							<!-- First name field -->
+					        <div class="form-group">
+								{% if form.first_name.errors %}
+								<!-- For displaying errors -->
+								<div class="has-error has-feedback inner-addon left-addon">
+									<!-- Giving glyphicon -->
+									<i class="glyphicon glyphicon-pencil error-color"></i>
+									{{ form.first_name }}
+									<!-- For displaying error messages inline -->
+									<span class="help-inline text-danger">
+					                    {% for error in  form.first_name.errors %}{{ error }}{% endfor %}
+							        </span>
+								</div>
+								{% else %}
+								<!-- For displaying input field with glyphicon inside it -->
+								<div class="inner-addon left-addon">
+									<!-- Giving glyphicon -->
+									<i class="glyphicon glyphicon-pencil"></i>
+									{{ form.first_name }}
+								</div>
+								{% endif %}
+							</div><!-- end first name field -->
 
-									<div class="form-group">
-										{% if form.last_name.errors %}
-										<!-- For displaying errors -->
-										<div class="has-error has-feedback inner-addon left-addon">
-											<!-- Giving glyhicon -->
-											<i class="glyphicon glyphicon-pencil error-color"></i>
-											{{ form.last_name }}
-											<!-- For displaying error messages inline -->
-											<span class="help-inline text-danger">
-							                    {% for error in  form.last_name.errors %}{{ error }}{% endfor %}
-									        </span>
-										</div>
-										{% else %}
-										<!-- For displaying input field with glyphicon inside it -->
-										<div class="inner-addon left-addon">
-											<!-- Giving glyphicon -->
-											<i class="glyphicon glyphicon-pencil"></i>
-											{{ form.last_name }}
-										</div>
-										{% endif %}
-									</div>
-
-									<div class="form-group">
-										{% if form.username.errors %}
-										<!-- For displaying errors -->
-										<div class="has-error has-feedback inner-addon left-addon">
-											<!-- Giving glyphicon -->
-											<i class="glyphicon glyphicon-user error-color"></i>
-											{{ form.username }}
-											<!-- For displaying error messages inline -->
-											<span class="help-inline text-danger">
-							                    {% for error in  form.username.errors %}{{ error }}{% endfor %}
-									        </span>
-										</div>
-										{% else %}
-										<!-- For displaying input field with glyphicon inside it -->
-										<div class="inner-addon left-addon">
-											<!-- Giving glpyhicon -->
-											<i class="glyphicon glyphicon-user"></i>
-											{{ form.username }}
-										</div>
-										{% endif %}
-									</div>
-
-									<div class="form-group">
-										{% if form.email.errors %}
-										<!-- For displaying errors -->
-										<div class="has-error has-feedback inner-addon left-addon">
-											<!-- Giving glyphicon -->
-											<i class="glyphicon glyphicon-envelope error-color"></i>
-											{{ form.email }}
-											<!-- For displaying error messages inline -->
-											<span class="help-inline text-danger">
-							                    {% for error in  form.email.errors %}{{ error }}{% endfor %}
-									        </span>
-										</div>
-										{% else %}
-										<!-- For displaying input field with glyphicon inside it -->
-										<div class="inner-addon left-addon">
-											<!-- Giving glyphicon -->
-											<i class="glyphicon glyphicon-envelope"></i>
-											{{ form.email }}
-										</div>
-										{% endif %}
-									</div>
-
-									<div class="form-group">
-										{% if form.password.errors %}
-										<!-- For displaying errors -->
-										<div class="has-error has-feedback inner-addon left-addon">
-											<!-- Giving glyphicon -->
-											<i class="glyphicon glyphicon-lock error-color"></i>
-											{{ form.password }}
-											<!-- For displaying error messages inline -->
-											<span class="help-inline text-danger">
-							                    {% for error in  form.password.errors %}{{ error }}{% endfor %}
-									        </span>
-										</div>
-										{% else %}
-										<!-- For displaying input field with glyphicon inside it -->
-										<div class="inner-addon left-addon">
-											<i class="glyphicon glyphicon-lock"></i>
-											{{ form.password }}
-											<!-- Giving glyphicon -->
-							        		<!-- <span class="glyphicon glyphicon-user form-control-feedback"></span> -->
-										</div>
-										{% endif %}
-									</div>
-
-									<div class="form-group">
-										{% if form.confirm_password.errors %}
-										<!-- For displaying errors -->
-										<div class="has-error has-feedback inner-addon left-addon">
-											<!-- Giving glyphicon -->
-											<i class="glyphicon glyphicon-lock error-color"></i>
-											{{ form.confirm_password }}
-											<!-- For displaying error messages inline -->
-											<span class="help-inline text-danger">
-							                    {% for error in  form.confirm_password.errors %}{{ error }}{% endfor %}
-									        </span>
-										</div>
-										{% else %}
-										<!-- For displaying input field with glyphicon inside it -->
-										<div class="inner-addon left-addon">
-											<!-- Giving glyphicon -->
-											<i class="glyphicon glyphicon-lock"></i>
-											{{ form.confirm_password }}
-										</div>
-										{% endif %}
-									</div>
-
-							   <!--  Singup submit button -->
-							    <div class="form-group text-center">
-							        <button type="submit" class="btn btn-success " >Sign up</button>
-							    </div>							
+							<!-- Last name field  -->
+							<div class="form-group">
+								{% if form.last_name.errors %}
+								<!-- For displaying errors -->
+								<div class="has-error has-feedback inner-addon left-addon">
+									<!-- Giving glyhicon -->
+									<i class="glyphicon glyphicon-pencil error-color"></i>
+									{{ form.last_name }}
+									<!-- For displaying error messages inline -->
+									<span class="help-inline text-danger">
+					                    {% for error in  form.last_name.errors %}{{ error }}{% endfor %}
+							        </span>
+								</div>
+								{% else %}
+								<!-- For displaying input field with glyphicon inside it -->
+								<div class="inner-addon left-addon">
+									<!-- Giving glyphicon -->
+									<i class="glyphicon glyphicon-pencil"></i>
+									{{ form.last_name }}
+								</div>
+								{% endif %}
+							</div><!-- end last name field -->
+							
+							<!-- Username field -->
+							<div class="form-group">
+								{% if form.username.errors %}
+								<!-- For displaying errors -->
+								<div class="has-error has-feedback inner-addon left-addon">
+									<!-- Giving glyphicon -->
+									<i class="glyphicon glyphicon-user error-color"></i>
+									{{ form.username }}
+									<!-- For displaying error messages inline -->
+									<span class="help-inline text-danger">
+					                    {% for error in  form.username.errors %}{{ error }}{% endfor %}
+							        </span>
+								</div>
+								{% else %}
+								<!-- For displaying input field with glyphicon inside it -->
+								<div class="inner-addon left-addon">
+									<!-- Giving glpyhicon -->
+									<i class="glyphicon glyphicon-user"></i>
+									{{ form.username }}
+								</div>
+								{% endif %}
+							</div><!-- end username field -->
+							
+							<!-- Email field -->
+							<div class="form-group">
+								{% if form.email.errors %}
+								<!-- For displaying errors -->
+								<div class="has-error has-feedback inner-addon left-addon">
+									<!-- Giving glyphicon -->
+									<i class="glyphicon glyphicon-envelope error-color"></i>
+									{{ form.email }}
+									<!-- For displaying error messages inline -->
+									<span class="help-inline text-danger">
+					                    {% for error in  form.email.errors %}{{ error }}{% endfor %}
+							        </span>
+								</div>
+								{% else %}
+								<!-- For displaying input field with glyphicon inside it -->
+								<div class="inner-addon left-addon">
+									<!-- Giving glyphicon -->
+									<i class="glyphicon glyphicon-envelope"></i>
+									{{ form.email }}
+								</div>
+								{% endif %}
+							</div><!-- end email field -->
+							
+							<!-- Password field -->
+							<div class="form-group">
+								{% if form.password.errors %}
+								<!-- For displaying errors -->
+								<div class="has-error has-feedback inner-addon left-addon">
+									<!-- Giving glyphicon -->
+									<i class="glyphicon glyphicon-lock error-color"></i>
+									{{ form.password }}
+									<!-- For displaying error messages inline -->
+									<span class="help-inline text-danger">
+					                    {% for error in  form.password.errors %}{{ error }}{% endfor %}
+							        </span>
+								</div>
+								{% else %}
+								<!-- For displaying input field with glyphicon inside it -->
+								<div class="inner-addon left-addon">
+									<i class="glyphicon glyphicon-lock"></i>
+									{{ form.password }}
+									<!-- Giving glyphicon -->
+					        		<!-- <span class="glyphicon glyphicon-user form-control-feedback"></span> -->
+								</div>
+								{% endif %}
+							</div><!-- end password field -->
+							
+							<!-- Confirm password field -->
+							<div class="form-group">
+								{% if form.confirm_password.errors %}
+								<!-- For displaying errors -->
+								<div class="has-error has-feedback inner-addon left-addon">
+									<!-- Giving glyphicon -->
+									<i class="glyphicon glyphicon-lock error-color"></i>
+									{{ form.confirm_password }}
+									<!-- For displaying error messages inline -->
+									<span class="help-inline text-danger">
+					                    {% for error in  form.confirm_password.errors %}{{ error }}{% endfor %}
+							        </span>
+								</div>
+								{% else %}
+								<!-- For displaying input field with glyphicon inside it -->
+								<div class="inner-addon left-addon">
+									<!-- Giving glyphicon -->
+									<i class="glyphicon glyphicon-lock"></i>
+									{{ form.confirm_password }}
+								</div>
+								{% endif %}
+							</div><!-- end confirm password field -->
+						   
+						   <!--  Singup submit button -->
+						    <div class="form-group text-center">
+						        <button type="submit" class="btn btn-success " >Sign up</button>
+						    </div>							
 						</form><!-- end signup form -->
 					</div>
 			</div><!-- end signup div -->
