@@ -37,10 +37,10 @@ class Scrap(object):
 
             # Select the form
             home = browser.get(self.flipkart_URL)
-            form = home.soup.find("form", {"id": "fk-header-search-form"})
+            form = home.soup.find("form", {"class": "_1WMLwI"})
 
             # Pass search argument in form input.
-            form.find("input", {"id": "fk-top-search-box"})["value"] = search
+            form.find("input", {"class": "LM6RPg"})["value"] = search
 
             # Get response.
             response = browser.submit(form, home.url)
@@ -55,9 +55,12 @@ class Scrap(object):
             product_list = []
 
             for div_tag in div_tags:
+
                 if search in ['book', 'books']:
+                    # Calling the flipkart_books method
                     data = Scrap.flipkart_books(self, div_tag, search)
                 else:
+                    # Calling the flipkart_general method.
                     data = Scrap.flipkart_general(self, div_tag, search)
                 try:
                     # Filtering product table with specific parameters
@@ -87,7 +90,7 @@ class Scrap(object):
                     product_obj = None
 
                 if product_obj:
-                    # Appending p to product_list
+                    # Appending product_obj to product_list
                     product_list.append(product_obj)
 
             # product_list is return to the view to display it in front end
@@ -139,7 +142,7 @@ class Scrap(object):
         return data
 
     def flipkart_books(self, div_tag, search):
-        """Function to search specifically books"""
+        """Function to search books specifically."""
         # Finding price in div.
         price = div_tag.find('div', {'class': 'pu-final'}).get_text()
 

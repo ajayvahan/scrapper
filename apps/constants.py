@@ -19,6 +19,10 @@ SITE_CHOICES = (
     ('F', 'flipkart'),
     ('A', 'amazon')
 )
+PRICE_CHOICES = (
+    ('LH', 'Low to High'),
+    ('HL', 'High to Low')
+)
 
 # Constants for home app scrap
 FLIPKART_URL = "http://www.flipkart.com"

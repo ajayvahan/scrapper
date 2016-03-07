@@ -39,3 +39,22 @@ class DashboardSearchForm(forms.Form):
             attrs={
                 'class': 'form-control', 'required': True, 'autofocus': True,
                 'placeholder': 'What would you like to search?'}))
+
+
+class DashboardFilterForm(forms.Form):
+    """Search products from database.
+
+    It provide all the fields needed for search form.
+    """
+
+    # Radio fields.
+    price_sort = forms.ChoiceField(
+        required=False, choices=con.PRICE_CHOICES,
+        widget=forms.RadioSelect(attrs={'class': 'filter-click',
+                                        'required': False}))
+
+    # Checkbox fields.
+    amazon = forms.BooleanField(
+        required=False, widget=forms.CheckboxInput(attrs={'class': 'filter-click'}))
+    flipkart = forms.BooleanField(
+        required=False, widget=forms.CheckboxInput(attrs={'class': 'filter-click'}))

@@ -119,12 +119,13 @@ body {
   margin-top:100px;
   min-height: 500px !important;
 }
-#dashboard-loading{ display: none; }
-.dashboard-input-div{
+#dashboard-loading { display: none; }
+#filter-section { display: none; }
+.dashboard-input-div {
   margin-top:10px;
   padding:0px;
 }
-.dashboard-submit-div{
+.dashboard-submit-div {
   margin-top:10px;
   padding:0px;
 }

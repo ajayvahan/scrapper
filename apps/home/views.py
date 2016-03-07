@@ -16,7 +16,8 @@ from django.contrib.auth.models import User
 from apps.usermanager.models import UserDetail
 from django.conf import settings
 from apps.home.scrap import Scrap
-from apps.home.forms import ScrapSearchForm, DashboardSearchForm
+from apps.home.forms import ScrapSearchForm
+from apps.home.forms import DashboardSearchForm, DashboardFilterForm
 from apps.home.models import Product
 from django.db.models import Q
 from django.template.loader import render_to_string
@@ -27,7 +28,7 @@ import logging
 
 # Get an instance of a logger
 logger = logging.getLogger(settings.LOGGER)
-
+global_product = None
 
 def home(request):
     """View for Home page."""
@@ -41,9 +42,10 @@ def dashboard(request):
     """View for Dashboard page."""
     # Creating form object.
     form = DashboardSearchForm()
+    form2 = DashboardFilterForm()
 
     # Contexts to send in html.
-    ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form}
+    ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form, 'form2': form2}
     return render(request, "dashboard.html", ctx)
 
 
@@ -60,6 +62,7 @@ def dashboard_search(request):
 
     # Creating form object.
     form = DashboardSearchForm()
+    form2 = DashboardFilterForm()
 
     # If method is ajax
     if request.is_ajax():
@@ -86,7 +89,93 @@ def dashboard_search(request):
                 # Storing the product list in result.
                 result = product
 
+                global global_product
+                global_product = result
+
             # If product does not exist.
+            else:
+
+                # Make result to none.
+                result = None
+
+                global global_product
+                global_product = result
+
+                # Send feedback.
+                feedback = "Search in Scrap page "
+
+        # Context to send in html.
+        ctx = {'result': result, 'dashboard_feedback': feedback}
+
+        # Passing the context to html and rendering to string.
+        # Store it in result variable.
+        result_html = render_to_string(
+            'result.html', ctx,
+            context_instance=RequestContext(request))
+
+        # dictionary to pass in json.dumps.
+        json_data = {'result': result_html}
+
+        # Send HttpResponse using json.dumps.
+        return HttpResponse(
+            json.dumps(json_data), content_type='application/json')
+
+    # Contexts to send in html.
+    ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form, 'form2': form2}
+    return render(request, "dashboard.html", ctx)
+
+    # If method POST.
+    if request.method == 'POST':
+
+        # Creating form object.
+        form = DashboardSearchForm()
+
+        # Contexts to send in html.
+        ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form}
+        return render(request, "dashboard.html", ctx)
+
+
+@login_required
+def dashboard_filter(request):
+    """View for dashboard filter."""
+    # Creating form object.
+    form = DashboardSearchForm()
+    form2 = DashboardFilterForm()
+
+    # If method is ajax
+    if request.is_ajax():
+
+        # import pdb
+        # pdb.set_trace()
+        global global_product
+        result = global_product
+
+        # Creating form object.
+        form2 = DashboardFilterForm(request.GET)
+
+        feedback = None
+
+        if form2.is_valid():
+
+            filter_data = form2.cleaned_data
+
+            if result:
+                # Filtering with respect to price.
+                if filter_data['price_sort'] == 'LH':
+                    result = result.order_by('price')
+                elif filter_data['price_sort'] == 'HL':
+                    result = result.order_by('-price')
+
+                # Filtering with respect to site preferrence.
+                if filter_data['amazon'] and filter_data['flipkart']:
+                    pass
+                elif filter_data['amazon']:
+                    result = result.filter(
+                        Q(site_reference__icontains='amazon'))
+                elif filter_data['flipkart']:
+                    result = result.filter(
+                        Q(site_reference__icontains='flipkart'))
+
             else:
 
                 # Make result to none.
@@ -100,30 +189,20 @@ def dashboard_search(request):
 
         # Passing the context to html and rendering to string.
         # Store it in result variable.
-        result = render_to_string(
+        result_html = render_to_string(
             'result.html', ctx,
             context_instance=RequestContext(request))
 
         # dictionary to pass in json.dumps.
-        json_data = {'result': result}
+        json_data = {'result': result_html}
 
         # Send HttpResponse using json.dumps.
         return HttpResponse(
             json.dumps(json_data), content_type='application/json')
 
     # Contexts to send in html.
-    ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form}
+    ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form, 'form2': form2}
     return render(request, "dashboard.html", ctx)
-
-    # If method POST.
-    if request.method == 'POST':
-
-        # Creating form object.
-        form = DashboardSearchForm()
-
-        # Contexts to send in html.
-        ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form}
-        return render(request, "dashboard.html", ctx)
 
 
 @login_required

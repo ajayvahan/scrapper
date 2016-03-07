@@ -15,6 +15,8 @@ urlpatterns = [
     url(r'^dashboard/$', 'apps.home.views.dashboard', name='dashboard'),
     url(r'^dashboard/search/$', 'apps.home.views.dashboard_search',
         name='dashboard_search'),
+    url(r'^dashboard/search/filter$', 'apps.home.views.dashboard_filter',
+        name='dashboard_filter'),
     url(r'^profile/$', 'apps.home.views.profile', name='profile'),
     url(r'^profile/edit/$', 'apps.home.views.edit_profile',
         name='edit_profile'),
