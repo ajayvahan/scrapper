@@ -55,6 +55,8 @@ class DashboardFilterForm(forms.Form):
 
     # Checkbox fields.
     amazon = forms.BooleanField(
-        required=False, widget=forms.CheckboxInput(attrs={'class': 'filter-click'}))
+        required=False, widget=forms.CheckboxInput(
+            attrs={'class': 'filter-click'}))
     flipkart = forms.BooleanField(
-        required=False, widget=forms.CheckboxInput(attrs={'class': 'filter-click'}))
+        required=False, widget=forms.CheckboxInput(
+            attrs={'class': 'filter-click'}))

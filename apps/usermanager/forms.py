@@ -39,20 +39,20 @@ class SignUpForm(forms.Form):
     email = forms.EmailField(
         max_length=254, required=True,
         widget=forms.TextInput(
-             attrs={
+            attrs={
                 'class': 'form-control', 'required': False, 'autofocus': True,
                 'placeholder': 'Email'}))
 
     # Password fields.
     password = forms.CharField(
         max_length=128, required=True,
-        widget=forms.TextInput(
+        widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control', 'required': False, 'autofocus': True,
                 'placeholder': 'Password'}))
     confirm_password = forms.CharField(
         max_length=128, required=True,
-        widget=forms.TextInput(
+        widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control', 'required': False, 'autofocus': True,
                 'placeholder': 'Confirm password'}))
@@ -75,7 +75,7 @@ class LoginForm(forms.Form):
     # Password field.
     password = forms.CharField(
         max_length=128, required=True,
-        widget=forms.TextInput(
+        widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control', 'required': False, 'autofocus': True,
                 'placeholder': 'Password'}))

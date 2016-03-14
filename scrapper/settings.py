@@ -46,6 +46,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'apps.home',
     'apps.usermanager',
+    'apps.checkout',
+    'stripe',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -153,6 +155,20 @@ LOGGING = {
 }
 
 LOGGER = 'scrapper'
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.csrf",
+)
+
+# Stripe Stuff
+
+# Test keys
+STRIPE_PUBLISHABLE_KEY = ' '
+STRIPE_SECRET_KEY = ' '
+
+# Live keys
+# STRIPE_PUBLISHABLE_KEY = ' '
+# STRIPE_SECRET_KEY = ' '
 
 try:
     from scrapper.local_settings import *

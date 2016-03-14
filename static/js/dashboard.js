@@ -83,4 +83,30 @@ $(document).ready(function(){
         });
         return true;
     });
+
+     // ajax for changing the total on changing the quantity
+    $("#id_quantity").change(function(){
+        $.ajax({ // create an AJAX call...
+            data: $("#summary_form").serialize(), // get the form data
+            type: $("#summary_form").attr('method'), // GET or POST
+            url: $("#summary_form").attr('action'), // the file to call
+            success: function(response) { // on success..
+                if (response.success){
+                   console.log(response.message);
+                    $('#total_price').html(response.total_price);
+                    $('#summary_continue_button').removeClass('disabled')
+
+                }
+                else{
+                    alert(response.message);
+                    $('#summary_continue_button').addClass('disabled')
+                }
+                
+            },
+            error: function(response) { // on error..
+                alert(response.message)
+            }
+        });
+        return false;
+    });
 })

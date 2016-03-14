@@ -22,5 +22,14 @@ urlpatterns = [
         name='edit_profile'),
     url(r'^dashboard/scrap/$', 'apps.home.views.scrap', name='scrap'),
     url(r'^activate/$', 'apps.usermanager.views.activate', name='activate'),
+    url(r'^checkout/address$', 'apps.checkout.views.checkout_address',
+        name='checkout_address'),
+    url(r'^checkout/payment$', 'apps.checkout.views.checkout_payment',
+        name='checkout_payment'),
+    url(r'^product/(?P<name>[-\w\d]+)/$', 'apps.home.views.product_display',
+        name="product_display"),
+    url(r'^checkout/address/summary$', 'apps.checkout.views.checkout_summary',
+        name='checkout_summary'),
+
 
 ]

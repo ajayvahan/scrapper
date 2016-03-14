@@ -1,0 +1,84 @@
+{% extends 'checkout/checkout_base.html' %}
+{% load staticfiles %}
+{% block checkout_base %}
+<div class="container">
+	<!-- Dashboard row-1 -->
+ 	<div class="row">
+ 		<div class="col-sm-4 col-sm-offset-4 checkout-address-div">
+ 			<div class="page-header text-center"><h3>Fill delivery details</h3></div>
+ 			<form action="{% url 'checkout_address' %}" method="post" >{% csrf_token %}
+ 				{{ form.non_field_errors }}
+ 					<!--name field -->
+					<div class="form-group">
+						{{ form.name.label_tag }}
+
+						{% if form.name.errors %}
+						<div class="has-error has-feedback">
+							{{ form.name }}
+							<span class="help-inline text-danger">
+			                    {% for error in  form.name.errors %}{{ error }}{% endfor %}
+			                </span>
+			                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+						</div>
+						{% else %}
+							{{ form.name }}
+						{% endif %}
+
+					</div>
+					<!--address field -->
+					<div class="form-group">
+						{{ form.address.label_tag }}
+
+						{% if form.address.errors %}
+						<div class="has-error has-feedback">
+							{{ form.address }}
+							<span class="help-inline text-danger">
+			                    {% for error in  form.address.errors %}{{ error }}{% endfor %}
+			                </span>
+			                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+						</div>
+						{% else %}
+							{{ form.address }}
+						{% endif %}
+
+					</div>
+					<!--phone field -->
+					<div class="form-group">
+						{{ form.phone.label_tag }}
+
+						{% if form.phone.errors %}
+						<div class="has-error has-feedback">
+							{{ form.phone }}
+							<span class="help-inline text-danger">
+			                    {% for error in  form.phone.errors %}{{ error }}{% endfor %}
+			                </span>
+			                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+						</div>
+						{% else %}
+							{{ form.phone }}
+						{% endif %}
+
+					</div>
+					<!--zip_code field -->
+					<div class="form-group">
+						{{ form.zip_code.label_tag }}
+
+						{% if form.zip_code.errors %}
+						<div class="has-error has-feedback">
+							{{ form.zip_code }}
+							<span class="help-inline text-danger">
+			                    {% for error in  form.zip_code.errors %}{{ error }}{% endfor %}
+			                </span>
+			                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+						</div>
+						{% else %}
+							{{ form.zip_code }}
+						{% endif %}
+
+					</div>
+ 				<div class="text-center"><button class="btn btn-success">Continue</button></div>
+ 			</form>
+ 		</div>
+ 	</div>
+ </div>
+{% endblock%}

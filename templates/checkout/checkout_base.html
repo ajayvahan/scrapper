@@ -17,11 +17,11 @@
     <link href="{% static 'css/dashboard_custom.css' %}" rel="stylesheet">
   </head>
   <body>
-    {% include 'dashboard_navbar.html' %}
-    {% block dashboard_base %}
+    {% include 'checkout/checkout_navbar.html' %}
+    {% block checkout_base %}
         <h2> BASE BLOCK </h2>
     {% endblock %}
-    {% include 'dashboard_footer.html' %}
+    {% include 'checkout/checkout_footer.html' %}
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -31,5 +31,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
     <script src="{% static 'js/dashboard.js' %}"></script>
+    {% block jquery %}
+    {% endblock %}
   </body>
 </html>

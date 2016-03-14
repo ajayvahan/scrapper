@@ -158,33 +158,63 @@ body {
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
 
+.result-buy-button { 
+  margin-top:15px;
+  margin-bottom:50px;
+  padding:6px 48px; 
+}
 
+.product-display-buy-button {
+  margin-top: 150px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.checkout-address-div {
+  border: 1px solid #eee;
+  border-radius: 5px;
+  background-color: #eee;
+  padding: 15px;
+  margin-top: 70px;
+  margin-bottom: 15px;
+}
 /* CUSTOMIZE SCRAP PAGE
 -------------------------------------------------- */ 
-.scrap-container{
+.scrap-container {
   margin-top:100px;
   min-height: 500px !important;
 }
-#scrap-loading{ display: none; }
-.site-choice-div span{ padding-left: 20px; }
+#scrap-loading { display: none; }
+.site-choice-div span { padding-left: 20px; }
 
 /* CUSTOMIZE PROFILE PAGE
 -------------------------------------------------- */ 
-.profile_container{
+.profile_container {
   background: #F1F3FA;
   min-height: 500px;
 }
 
 /* CUSTOMIZE EDIT PROFILE PAGE
 -------------------------------------------------- */ 
-.editprofile_container{
+.editprofile_container {
   margin-top:5%;
   margin-bottom:5%
 }
 
+/* CUSTOMIZE THE CHECKOUT PAYMENT PAGE
+-------------------------------------------------- */
+/* set minimum height for container */
+.checkout-container {
+  margin-top:200px;
+  min-height: 400px !important;
+}
+
+/* CUSTOMIZE THE CHECKOUT SUMMARY PAGE
+-------------------------------------------------- */
+.summary-continue-button { padding:10px 100px }
+
 /* CUSTOMIZE THE FOOTER
 -------------------------------------------------- */
-footer{
+footer {
       background:#333;
       color:#A1A5A7;
       font-size: 12px;

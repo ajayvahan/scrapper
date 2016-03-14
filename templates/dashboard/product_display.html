@@ -1,0 +1,37 @@
+{% extends 'dashboard/dashboard_base.html' %}
+{% load staticfiles %}
+{% block dashboard_base %}
+<div class="container dashboard-container">
+	<!-- Dashboard row-1 -->
+ 	<div class="row">
+	 	<!--  Product div -->
+			<div class="col-sm-12">
+				<!-- Product image div -->
+				<div class="col-md-5 text-center">
+					<a href="{{product.landing_url}}" target="_blank">
+						<img height="350px" width="250px"class="text-center" src="{{product.image}}"/>
+					</a>
+				</div><!-- end product image div -->
+				<!-- Product details div -->
+				<div class="col-md-7 ">
+					<div class="col-sm-12">
+						<a href="{{product.landing_url}}" target="_blank" ><h4>{{product.name}}</h4></a>
+					</div>
+					<!-- Product price field -->
+					<div class="col-sm-12">
+						<h4>Rs: <a href="{{product.landing_url}}" target="_blank" ><span class="text-danger">{{product.price}}</span></h4></a>
+					</div>
+					<!-- Product category -->
+					<div class="col-sm-12">
+						<h5>Category: {{product.product_type}}</h5>
+					</div>
+					<div class="col-sm-12">
+						<a href="{% url 'checkout_address' %}" class="btn btn-lg btn-success product-display-buy-button">BUY</a>
+					</div>
+
+				</div>
+	   	</div>
+	</div>
+</div>
+
+{% endblock %}

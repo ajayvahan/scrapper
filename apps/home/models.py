@@ -4,6 +4,7 @@ It contains Product model.
 """
 
 from django.db import models
+from django.template.defaultfilters import slugify
 
 
 class Product(models.Model):
@@ -27,6 +28,12 @@ class Product(models.Model):
     # URL field.
     landing_url = models.URLField(null=True, blank=True)
     image = models.URLField(null=True, blank=True)
+    slug_name = models.SlugField(max_length=255, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        """To save slug_name which is slugified form of name field."""
+        self.slug_name = slugify(self.name)
+        super(Product, self).save(*args, **kwargs)
 
     def __str__(self):
         """Value to return if object is called."""

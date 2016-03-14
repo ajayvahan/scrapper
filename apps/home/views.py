@@ -23,18 +23,21 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 import json
 import logging
+from django.core.cache import cache
 
 # Get an instance of a logger
 logger = logging.getLogger(settings.LOGGER)
-global_product = None
+
 
 def home(request):
     """View for Home page."""
     # Contexts to send in html.
     ctx = {'title': 'Home page', 'home': 'active'}
-    return render(request, "home.html", ctx)
+    return render(request, "home/home.html", ctx)
 
 
 @login_required
@@ -45,8 +48,9 @@ def dashboard(request):
     form2 = DashboardFilterForm()
 
     # Contexts to send in html.
-    ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form, 'form2': form2}
-    return render(request, "dashboard.html", ctx)
+    ctx = {'title': 'Dashboard page', 'dashboard': 'active',
+           'form': form, 'form2': form2}
+    return render(request, "dashboard/dashboard.html", ctx)
 
 
 @login_required
@@ -66,12 +70,10 @@ def dashboard_search(request):
 
     # If method is ajax
     if request.is_ajax():
-
         # Creating form object.
         form = DashboardSearchForm(request.GET)
 
         if form.is_valid():
-
             # Reading search_item value from cleaned_data.
             search_item = form.cleaned_data.get('search_item')
 
@@ -85,24 +87,19 @@ def dashboard_search(request):
                 Q(description__icontains=search_item))
 
             if product:
-
                 # Storing the product list in result.
                 result = product
 
-                global global_product
-                global_product = result
-
             # If product does not exist.
             else:
-
                 # Make result to none.
                 result = None
 
-                global global_product
-                global_product = result
-
                 # Send feedback.
                 feedback = "Search in Scrap page "
+
+        # Storing the result in the cache.
+        cache.set('result_product', result, None)
 
         # Context to send in html.
         ctx = {'result': result, 'dashboard_feedback': feedback}
@@ -110,7 +107,7 @@ def dashboard_search(request):
         # Passing the context to html and rendering to string.
         # Store it in result variable.
         result_html = render_to_string(
-            'result.html', ctx,
+            'dashboard/result.html', ctx,
             context_instance=RequestContext(request))
 
         # dictionary to pass in json.dumps.
@@ -121,18 +118,41 @@ def dashboard_search(request):
             json.dumps(json_data), content_type='application/json')
 
     # Contexts to send in html.
-    ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form, 'form2': form2}
-    return render(request, "dashboard.html", ctx)
+    ctx = {'title': 'Dashboard page', 'dashboard': 'active',
+           'form': form, 'form2': form2}
+    return render(request, "dashboard/dashboard.html", ctx)
 
     # If method POST.
     if request.method == 'POST':
-
         # Creating form object.
         form = DashboardSearchForm()
 
         # Contexts to send in html.
         ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form}
-        return render(request, "dashboard.html", ctx)
+        return render(request, "dashboard/dashboard.html", ctx)
+
+
+def product_display(request, name):
+    """View for product_display page."""
+    try:
+        # Filter the product table where the slug_name.
+        product = Product.objects.filter(slug_name=name)
+
+        # Get pk from the product and store in pk variable.
+        pk = product[0].pk
+
+        # Store the product_id and price in the cache.
+        cache.set('product_id', pk, None)
+        cache.set('price', product[0].price, None)
+
+        ctx = ({'title': 'Product display page', 'product': product[0]})
+        return render(request, "dashboard/product_display.html", ctx)
+
+    except Exception as e:
+        logger.exception("EXCEPTION :" + str(e))
+
+        # Redirect to the dashboard page.
+        return HttpResponseRedirect(reverse('dashboard'))
 
 
 @login_required
@@ -144,11 +164,8 @@ def dashboard_filter(request):
 
     # If method is ajax
     if request.is_ajax():
-
-        # import pdb
-        # pdb.set_trace()
-        global global_product
-        result = global_product
+        # Getting the searched results from cache.
+        result = cache.get('result_product')
 
         # Creating form object.
         form2 = DashboardFilterForm(request.GET)
@@ -177,7 +194,6 @@ def dashboard_filter(request):
                         Q(site_reference__icontains='flipkart'))
 
             else:
-
                 # Make result to none.
                 result = None
 
@@ -190,7 +206,7 @@ def dashboard_filter(request):
         # Passing the context to html and rendering to string.
         # Store it in result variable.
         result_html = render_to_string(
-            'result.html', ctx,
+            'dashboard/result.html', ctx,
             context_instance=RequestContext(request))
 
         # dictionary to pass in json.dumps.
@@ -201,8 +217,9 @@ def dashboard_filter(request):
             json.dumps(json_data), content_type='application/json')
 
     # Contexts to send in html.
-    ctx = {'title': 'Dashboard page', 'dashboard': 'active', 'form': form, 'form2': form2}
-    return render(request, "dashboard.html", ctx)
+    ctx = {'title': 'Dashboard page', 'dashboard': 'active',
+           'form': form, 'form2': form2}
+    return render(request, "dashboard/dashboard.html", ctx)
 
 
 @login_required
@@ -210,7 +227,7 @@ def profile(request):
     """View for Profile page."""
     # Context to send in html.
     ctx = ({'title': 'profile page', 'profile': 'active'})
-    return render(request, "profile.html", ctx)
+    return render(request, "dashboard/profile.html", ctx)
 
 
 @login_required
@@ -227,6 +244,7 @@ def edit_profile(request):
         if form.is_valid():
 
             try:
+                # Store form cleaned_data in data variable.
                 data = form.cleaned_data
 
                 # Store only first_name and last_name fields in data1.
@@ -267,10 +285,14 @@ def edit_profile(request):
                 UserDetail.objects.filter(user=request.user.pk).update(**data2)
 
                 logger.info('EDIT PROFILE: ' + 'SUCCESS')
+
+                # Feedback message to send in the context.
                 feedback = "successfully updated"
+
+                # Context to send in the html.
                 ctx = {'form': form, 'title': 'Edit profile page',
                        'feedback': feedback, 'edit_profile': 'active'}
-                return render(request, "edit_profile.html", ctx)
+                return render(request, "dashboard/edit_profile.html", ctx)
 
             except Exception as e:
                 logger.exception("EXCEPTION :" + str(e))
@@ -285,7 +307,7 @@ def edit_profile(request):
     # Context to send in html.
     ctx = {'form': form, 'title': 'Edit profile page',
            'edit_profile': 'active'}
-    return render(request, "edit_profile.html", ctx)
+    return render(request, "dashboard/edit_profile.html", ctx)
 
 
 def save_file(file, upload_to):
@@ -347,6 +369,7 @@ def scrap(request):
                 # Calling amazon method in Scrap.
                 # Store the return value in result.
                 result = scrap.amazon(search_item)
+
                 if not result:
                     feedback = "Search item not found"
 
@@ -356,7 +379,7 @@ def scrap(request):
             # Passing the context to html and rendering to string.
             # Store it in result variable.
             result = render_to_string(
-                'result.html', ctx,
+                'dashboard/result.html', ctx,
                 context_instance=RequestContext(request))
 
             # dictionary to pass in json.dumps.
@@ -376,4 +399,4 @@ def scrap(request):
     # Context to send in html.
     ctx = {'title': 'Scrap page', 'scrap': 'active', 'form': form,
            'result': result, 'feedback': feedback}
-    return render(request, "scrap.html", ctx)
+    return render(request, "dashboard/scrap.html", ctx)

@@ -1,0 +1,48 @@
+{% extends 'checkout/checkout_base.html' %}
+{% load staticfiles %}
+{% block checkout_base %}
+<div class="container dashboard-container">
+	<!-- Dashboard row-1 -->
+ 	<div class="row">
+ 		<div class="col-sm-12">
+ 			<!--  Product div -->
+			<div class="col-sm-12">
+				<table class="table text-center">
+					<tr>
+						<th class="col-sm-6 text-center"><p>ITEM</p></th>
+						<th class="col-sm-2 text-center"><p>PRICE</p></th>
+						<th class="col-sm-2 text-center"><p>QUANTITY</p></th>
+						<th class="col-sm-2 text-center"><p>TOTAL</p></th>
+					</tr>
+					<tr>
+						<td class="col-sm-6 text-muted ">
+							<div class="col-sm-3">
+								<img class="text-center" src="{{order.product.image}}"/>						
+							</div>
+							<div style="padding-left:100px" class="col-sm-9 text-left">
+								<h4 >{{order.product.product_type}}</h4>
+								<p><a href="{% url 'product_display' order.product.slug_name %}">{{order.product.name}}</a></p>
+								<p>in {{order.product.site_reference}}</p>
+								<h4 class="text-success"> {{order.order_id}}</h4>
+							</div>
+						</td>
+						<td class="col-sm-2"><p>Rs. {{order.product.price}}</p></td>
+						<td class="col-sm-2">
+							<div class="col-sm-6 col-sm-offset-3">
+								<form id="summary_form" action="{% url 'checkout_summary' %}" method="post">{% csrf_token %}
+									{{form.quantity}}
+								</form>
+							</div>
+						</td>
+						<td class="col-sm-2 text-danger "><p>Rs. <span id="total_price">{{order.product.price}}</span></p></td>
+					</tr>
+				</table>
+				<div class="page-header"></div>
+				<div class="text-right">
+					<a id="summary_continue_button" href="{% url 'checkout_payment' %}" class="btn btn-warning summary-continue-button"> CONTINUE </a>
+				</div>
+			</div><!-- end Product div -->
+ 		</div>
+ 	</div>
+ </div>
+{% endblock%}

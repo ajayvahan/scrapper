@@ -80,17 +80,15 @@ def signup(request):
                 user = None
 
                 # Context to send in html.
-                ctx = (
-                    {'form': form, 'title': 'Signup page', 'signup': 'active'}
-                )
+                ctx = ({'form': form, 'title': 'Signup page',
+                        'signup': 'active'})
 
                 # Sending error message in html.
                 messages.error(request, 'Password didnt match')
 
                 return render_to_response(
-                    'signup.html', ctx,
-                    context_instance=RequestContext(request)
-                )
+                    'home/signup.html', ctx,
+                    context_instance=RequestContext(request))
             if user:
 
                     try:
@@ -108,7 +106,7 @@ def signup(request):
                              'signup': 'active', 'feedback': feedback}
                         )
                         return render_to_response(
-                            'signup.html', ctx,
+                            'home/signup.html', ctx,
                             context_instance=RequestContext(request)
                         )
 
@@ -121,13 +119,10 @@ def signup(request):
         form = forms.SignUpForm()
 
     # Sending context to html.
-    ctx = (
-        {'form': form, 'title': 'Signup page', 'signup': 'active'}
-    )
+    ctx = ({'form': form, 'title': 'Signup page', 'signup': 'active'})
 
     return render_to_response(
-        'signup.html', ctx, context_instance=RequestContext(request)
-    )
+        'home/signup.html', ctx, context_instance=RequestContext(request))
 
 
 def generate_activation_key(email):
@@ -184,7 +179,7 @@ def activate(request):
                 User.objects.filter(pk=activate.user_id).update(**data1)
                 ctx = {'title': 'Activate page'}
                 return render_to_response(
-                    'activate.html', ctx,
+                    'home/activate.html', ctx,
                     context_instance=RequestContext(request))
 
             else:
@@ -193,7 +188,7 @@ def activate(request):
                 # Context to send in html.
                 ctx = {'title': 'Activate page', 'feedback': feedback}
                 return render_to_response(
-                    'activate.html', ctx,
+                    'home/activate.html', ctx,
                     context_instance=RequestContext(request))
 
         except Exception as e:
@@ -204,7 +199,7 @@ def activate(request):
 
             # Context to send in html.
             ctx = {'title': 'Activate page', 'feedback': feedback}
-            return render_to_response('activate.html', ctx,
+            return render_to_response('home/activate.html', ctx,
                                       context_instance=RequestContext(request))
 
 
@@ -231,8 +226,7 @@ def login_user(request):
 
             # Authenticating user.
             auth_user = authenticate(
-                username=data['username'], password=data['password']
-            )
+                username=data['username'], password=data['password'])
 
             # If user exist the login user.
             if auth_user:
@@ -247,31 +241,28 @@ def login_user(request):
 
                 else:
                     # Context to send in html.
-                    ctx = ({
-                        'form': form, 'title': 'Login page', 'login': 'active'
-                    })
+                    ctx = ({'form': form, 'title': 'Login page',
+                            'login': 'active'})
 
                     # Send error message in html.
                     messages.error(request, 'Please activate your account.')
 
                     return render_to_response(
-                        'login.html', ctx,
-                        context_instance=RequestContext(request)
-                    )
+                        'home/login.html', ctx,
+                        context_instance=RequestContext(request))
 
             else:
 
                 # Context to send in html.
-                ctx = (
-                    {'form': form, 'title': 'Login page', 'login': 'active'}
-                )
+                ctx = ({'form': form, 'title': 'Login page',
+                        'login': 'active'})
 
                 # Send error message in html.
                 messages.error(request, 'Wrong username or password')
 
                 return render_to_response(
-                    'login.html', ctx, context_instance=RequestContext(request)
-                )
+                    'home/login.html', ctx,
+                    context_instance=RequestContext(request))
 
     # If the method is GET.
     elif request.method == 'GET':
@@ -282,5 +273,4 @@ def login_user(request):
     ctx = ({'form': form, 'title': 'Login page', 'login': 'active'})
 
     return render_to_response(
-        'login.html', ctx, context_instance=RequestContext(request)
-    )
+        'home/login.html', ctx, context_instance=RequestContext(request))

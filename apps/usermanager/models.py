@@ -22,22 +22,17 @@ class UserDetail(models.Model):
 
     # One-to-one relation with auth_user table
     user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-    )
+        User, on_delete=models.CASCADE)
 
     # Date fields.
     date_of_birth = models.DateField(
-        auto_now=False, auto_now_add=False, null=True, blank=True
-    )
+        auto_now=False, auto_now_add=False, null=True, blank=True)
 
     # Char fields.
     marital = models.CharField(
-        max_length=1, choices=con.MARITAL_CHOICES, null=True, blank=True
-    )
+        max_length=1, choices=con.MARITAL_CHOICES, null=True, blank=True)
     gender = models.CharField(
-        max_length=1, choices=con.GENDER_CHOICES, null=True, blank=True
-    )
+        max_length=1, choices=con.GENDER_CHOICES, null=True, blank=True)
     address = models.CharField(max_length=254, null=True, blank=True)
     street = models.CharField(max_length=30, null=True, blank=True)
     city = models.CharField(max_length=30, null=True, blank=True)
@@ -54,8 +49,7 @@ class UserDetail(models.Model):
 
     # Image field.
     image = models.ImageField(
-        upload_to='static/uploads/', null=True, blank=True
-    )
+        upload_to='static/uploads/', null=True, blank=True)
 
     def __str__(self):
         """Value to return when object is called."""
@@ -67,9 +61,7 @@ class UserActivation(models.Model):
 
     # One-to-one relation with auth_user table
     user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-    )
+        User, on_delete=models.CASCADE)
 
     # Char fields.
     activation_key = models.CharField(max_length=40, blank=True)
